@@ -1,0 +1,167 @@
+/* NavBar.css — all dark mode handled by theme.css variables */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 64px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-brand {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text-soft);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.nav-link:hover {
+  background: var(--hover-bg);
+  color: var(--primary);
+}
+
+.nav-link.active {
+  background: var(--active-bg);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* ── Right side ── */
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.user-email {
+  font-size: 0.82rem;
+  color: var(--muted);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Role pill — uses global badge vars, no hardcoded colors */
+.role-pill {
+  padding: 0.22rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.role-pill.admin      { background: var(--badge-purple-bg); color: var(--badge-purple-text); }
+.role-pill.supervisor { background: var(--badge-blue-bg);   color: var(--badge-blue-text);   }
+.role-pill.intern     { background: var(--badge-green-bg);  color: var(--badge-green-text);  }
+
+/* Logout */
+.logout-btn {
+  padding: 0.4rem 1rem;
+  background: transparent;
+  color: var(--danger);
+  border: 1.5px solid var(--danger-border);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.logout-btn:hover {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+
+/* ── Theme Switcher ── */
+.theme-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.theme-option {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.theme-option:hover  { color: var(--text); }
+
+.theme-option.active {
+  background: var(--active-bg);
+  color: var(--primary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1180px) {
+  .navbar {
+    padding: 0.6rem 1rem;
+    flex-wrap: wrap;
+    height: auto;
+    gap: 0.6rem;
+  }
+
+  .navbar-links {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+    gap: 0.25rem;
+  }
+
+  .navbar-user {
+    margin-left: auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    row-gap: 0.4rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .user-email   { display: none; }
+  .theme-option { padding: 0.28rem 0.45rem; font-size: 0.7rem; }
+}

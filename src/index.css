@@ -1,0 +1,346 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+:root {
+  /* Background & Text */
+  --bg: #f0f2f5;
+  --text: #333;
+  --text-soft: #555;
+  --text-lighter: #999;
+  --surface: #ffffff;
+  --surface-2: #f8f9fa;
+  --muted: #888;
+  
+  /* Colors */
+  --border: #e5e7eb;
+  --primary: #667eea;
+  --primary-light: #7c8ff3;
+  --secondary: #764ba2;
+  --active-bg: #ede9fe;
+  --danger: #e53e3e;
+  --danger-light: #ef5350;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  
+  /* Effects */
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.1);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-primary-light: linear-gradient(135deg, #7c8ff3 0%, #8b5fb8 100%);
+}
+
+:root[data-theme="dark"] {
+  /* Background & Text */
+  --bg: #0f172a;
+  --text: #e5e7eb;
+  --text-soft: #cbd5e1;
+  --text-lighter: #94a3b8;
+  --surface: #111827;
+  --surface-2: #1f2937;
+  --muted: #94a3b8;
+  
+  /* Colors */
+  --border: #334155;
+  --primary: #93a7ff;
+  --primary-light: #a8b8ff;
+  --secondary: #a78bfa;
+  --active-bg: #312e81;
+  --danger: #f87171;
+  --danger-light: #fb7185;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  
+  /* Effects */
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #93a7ff 0%, #a78bfa 100%);
+  --gradient-primary-light: linear-gradient(135deg, #a8b8ff 0%, #b9a3ff 100%);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ────────────────────────────────────────── */
+/* CARD STYLES */
+/* ────────────────────────────────────────── */
+.project-card,
+.table-card,
+.dw-card,
+.dash-card,
+.stat-card,
+.modal-box,
+.login-card {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.project-card-footer,
+.users-table thead,
+.yesterday-user-header,
+.modal-header {
+  background: var(--surface-2);
+  border-color: var(--border);
+}
+
+/* ────────────────────────────────────────── */
+/* TEXT STYLES */
+/* ────────────────────────────────────────── */
+.users-table th,
+.users-table td,
+.users-table tbody tr td,
+.task-description,
+.project-name,
+.project-desc,
+.project-card-body h3,
+.project-desc-small,
+.page-header h1,
+.dw-card h2,
+.card-header h2,
+.stat-info h3,
+.modal-header h3,
+.user-name,
+.login-header h2,
+.fp-header h2 {
+  color: var(--text);
+}
+
+.page-header p,
+.loading-text,
+.empty-state,
+.empty-small,
+.card-subtitle,
+.user-email,
+.task-meta,
+.task-time,
+.td-email,
+.td-date,
+.project-card-footer span,
+.dw-subtitle,
+.field-hint,
+.label-hint,
+.login-header p,
+.fp-header p,
+.otp-sent-msg,
+.password-strength span,
+.step-label,
+.error-message {
+  color: var(--text-soft);
+}
+
+/* ────────────────────────────────────────── */
+/* FORM ELEMENTS */
+/* ────────────────────────────────────────── */
+input,
+textarea,
+select {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+  transition: all 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  background: var(--surface-2);
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-lighter);
+}
+
+.form-group label,
+.form-section-title,
+.step-circle {
+  color: var(--text-soft);
+}
+
+/* ────────────────────────────────────────── */
+/* BORDERS & TABLES */
+/* ────────────────────────────────────────── */
+.users-table td,
+.users-table th,
+.users-table tbody tr td,
+.project-card-footer,
+.modal-header,
+.today-item,
+.yesterday-user-header,
+.form-section-title,
+.task-item,
+.day-task-item,
+.day-row,
+.project-checkbox-row,
+.project-checkbox-row.selected,
+.user-row.selected,
+.step-circle,
+.otp-box,
+.error-message {
+  border-color: var(--border);
+}
+
+.users-table tbody tr:hover,
+.project-row:hover,
+.user-row:hover,
+.modal-close:hover {
+  background: var(--surface-2);
+}
+
+/* ────────────────────────────────────────── */
+/* BUTTONS */
+/* ────────────────────────────────────────── */
+.secondary-btn,
+.edit-btn,
+.delete-btn {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+  transition: all 0.2s ease;
+}
+
+.secondary-btn:hover,
+.edit-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(102, 126, 234, 0.08);
+}
+
+/* ────────────────────────────────────────── */
+/* INTERACTIVE ELEMENTS */
+/* ────────────────────────────────────────── */
+.day-task-item {
+  background: var(--surface-2);
+}
+
+.project-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+
+.day-row.today,
+.project-checkbox-row.selected,
+.user-row.selected {
+  background: rgba(102, 126, 234, 0.08);
+  border-color: var(--primary);
+}
+
+.user-row.selected {
+  border-color: var(--primary);
+}
+
+.step-circle {
+  background: var(--surface-2);
+  color: var(--text-soft);
+}
+
+.step-line {
+  background: var(--border);
+}
+
+.otp-box {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.otp-box.filled,
+.form-group select.select-filled {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: var(--primary);
+}
+
+.toggle-password,
+.resend-btn,
+.fp-footer a {
+  color: var(--primary);
+  transition: color 0.2s ease;
+}
+
+.toggle-password:hover,
+.resend-btn:hover,
+.fp-footer a:hover {
+  color: var(--primary-light);
+}
+
+/* ────────────────────────────────────────── */
+/* STATUS MESSAGES & ALERTS */
+/* ────────────────────────────────────────── */
+.msg.error,
+.toast-error {
+  background: rgba(229, 62, 62, 0.1);
+  border: 1px solid rgba(229, 62, 62, 0.3);
+  color: var(--danger);
+}
+
+:root[data-theme="dark"] .msg.error,
+:root[data-theme="dark"] .toast-error {
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.3);
+  color: #fecaca;
+}
+
+.msg.success,
+.toast-success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: var(--success);
+}
+
+:root[data-theme="dark"] .msg.success,
+:root[data-theme="dark"] .toast-success {
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.3);
+  color: #bbf7d0;
+}
+
+.toast-warning,
+.no-projects-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: var(--warning);
+}
+
+:root[data-theme="dark"] .toast-warning,
+:root[data-theme="dark"] .no-projects-warning {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.3);
+  color: #fde68a;
+}
+
+.success-banner {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: var(--success);
+}
+
+:root[data-theme="dark"] .success-banner {
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.3);
+  color: #bbf7d0;
+}

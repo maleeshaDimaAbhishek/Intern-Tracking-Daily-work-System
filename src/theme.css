@@ -1,0 +1,487 @@
+/* ============================================================
+   theme.css — Single source of truth for all design tokens
+   Import this FIRST in your main index.css or App.css
+   ============================================================ */
+
+/* ── Google Font ── */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ──────────────────────────────────────────────────────────────
+   LIGHT MODE (default)
+   ────────────────────────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --primary:          #667eea;
+  --primary-dark:     #5a6fd6;
+  --primary-light:    #818cf8;
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  /* Backgrounds */
+  --bg:               #f0f2f8;
+  --surface:          #ffffff;
+  --surface-2:        #f8f9fc;
+  --surface-3:        #f0f2f8;
+
+  /* Text */
+  --text:             #1a1f36;
+  --text-soft:        #4a5568;
+  --text-lighter:     #a0aec0;
+  --muted:            #718096;
+
+  /* Borders */
+  --border:           #e2e8f0;
+  --border-strong:    #cbd5e0;
+
+  /* Semantic colors */
+  --success:          #38a169;
+  --success-bg:       #f0fff4;
+  --success-border:   #c6f6d5;
+
+  --danger:           #e53e3e;
+  --danger-light:     #fc8181;
+  --danger-bg:        #fff5f5;
+  --danger-border:    #fed7d7;
+
+  --warning:          #d69e2e;
+  --warning-bg:       #fffbeb;
+  --warning-border:   #fbd38d;
+
+  --info:             #3182ce;
+  --info-bg:          #ebf8ff;
+  --info-border:      #bee3f8;
+
+  /* Interactive */
+  --active-bg:        rgba(102, 126, 234, 0.1);
+  --hover-bg:         rgba(102, 126, 234, 0.06);
+
+  /* Shadows */
+  --shadow-sm:        0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow:           0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg:        0 10px 30px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-xl:        0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.08);
+
+  /* Badge colors */
+  --badge-purple-bg:  #ede9fe;
+  --badge-purple-text:#6b46c1;
+  --badge-green-bg:   #dcfce7;
+  --badge-green-text: #166534;
+  --badge-blue-bg:    #dbeafe;
+  --badge-blue-text:  #1e40af;
+  --badge-orange-bg:  #ffedd5;
+  --badge-orange-text:#9a3412;
+
+  /* Radius */
+  --radius-sm:        6px;
+  --radius:           10px;
+  --radius-lg:        14px;
+  --radius-xl:        20px;
+  --radius-full:      9999px;
+
+  /* Typography */
+  --font:             'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono:        'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Transitions */
+  --transition:       all 0.2s ease;
+  --transition-slow:  all 0.35s ease;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   DARK MODE
+   ────────────────────────────────────────────────────────────── */
+:root[data-theme="dark"] {
+  /* Brand — slightly brighter for dark bg */
+  --primary:          #818cf8;
+  --primary-dark:     #6366f1;
+  --primary-light:    #a5b4fc;
+  --gradient-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+
+  /* Backgrounds — layered dark surfaces */
+  --bg:               #0f1117;
+  --surface:          #1a1d27;
+  --surface-2:        #21253a;
+  --surface-3:        #272b3d;
+
+  /* Text — high contrast on dark */
+  --text:             #f1f5f9;
+  --text-soft:        #94a3b8;
+  --text-lighter:     #64748b;
+  --muted:            #64748b;
+
+  /* Borders — subtle on dark */
+  --border:           #2d3150;
+  --border-strong:    #3d4270;
+
+  /* Semantic colors — adjusted for dark */
+  --success:          #4ade80;
+  --success-bg:       rgba(74, 222, 128, 0.1);
+  --success-border:   rgba(74, 222, 128, 0.25);
+
+  --danger:           #f87171;
+  --danger-light:     #fca5a5;
+  --danger-bg:        rgba(248, 113, 113, 0.1);
+  --danger-border:    rgba(248, 113, 113, 0.25);
+
+  --warning:          #fbbf24;
+  --warning-bg:       rgba(251, 191, 36, 0.1);
+  --warning-border:   rgba(251, 191, 36, 0.25);
+
+  --info:             #60a5fa;
+  --info-bg:          rgba(96, 165, 250, 0.1);
+  --info-border:      rgba(96, 165, 250, 0.25);
+
+  /* Interactive */
+  --active-bg:        rgba(129, 140, 248, 0.15);
+  --hover-bg:         rgba(129, 140, 248, 0.08);
+
+  /* Shadows — deeper on dark */
+  --shadow-sm:        0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow:           0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg:        0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-xl:        0 20px 60px rgba(0, 0, 0, 0.6);
+
+  /* Badge colors — muted for dark */
+  --badge-purple-bg:  rgba(139, 92, 246, 0.2);
+  --badge-purple-text:#c4b5fd;
+  --badge-green-bg:   rgba(74, 222, 128, 0.15);
+  --badge-green-text: #86efac;
+  --badge-blue-bg:    rgba(96, 165, 250, 0.15);
+  --badge-blue-text:  #93c5fd;
+  --badge-orange-bg:  rgba(251, 146, 60, 0.15);
+  --badge-orange-text:#fdba74;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   GLOBAL BASE STYLES
+   ────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* ── Focus ring ── */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(102, 126, 234, 0.25);
+  color: var(--text);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   GLOBAL UTILITY CLASSES
+   These work in both light and dark automatically
+   ────────────────────────────────────────────────────────────── */
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.badge.purple, .badge.admin {
+  background: var(--badge-purple-bg);
+  color: var(--badge-purple-text);
+}
+
+.badge.green, .badge.intern {
+  background: var(--badge-green-bg);
+  color: var(--badge-green-text);
+}
+
+.badge.blue {
+  background: var(--badge-blue-bg);
+  color: var(--badge-blue-text);
+}
+
+.badge.orange {
+  background: var(--badge-orange-bg);
+  color: var(--badge-orange-text);
+}
+
+.badge.supervisor {
+  background: var(--badge-blue-bg);
+  color: var(--badge-blue-text);
+}
+
+/* Messages */
+.msg {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.msg.error {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+}
+
+.msg.success {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+}
+
+.msg.warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--warning-border);
+}
+
+/* Buttons */
+.primary-btn {
+  padding: 0.65rem 1.3rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.01em;
+}
+
+.primary-btn:hover   { opacity: 0.9; transform: translateY(-1px); }
+.primary-btn:active  { transform: translateY(0); }
+.primary-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.secondary-btn {
+  padding: 0.65rem 1.3rem;
+  background: var(--surface);
+  color: var(--text-soft);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.secondary-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--active-bg);
+}
+
+.delete-btn {
+  padding: 0.35rem 0.8rem;
+  background: var(--surface);
+  color: var(--danger);
+  border: 1.5px solid var(--danger-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.delete-btn:hover {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+
+/* Form inputs — global dark mode aware */
+input, textarea, select {
+  font-family: var(--font);
+  background: var(--surface);
+  color: var(--text);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--surface);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-lighter);
+}
+
+select option {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+/* Loading & empty states */
+.loading-text {
+  text-align: center;
+  color: var(--muted);
+  padding: 4rem;
+  font-size: 0.95rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--muted);
+}
+
+.empty-state p:first-child {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Page header */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.8rem;
+}
+
+.page-header h1 {
+  font-size: 1.6rem;
+  color: var(--text);
+  font-weight: 800;
+  margin-bottom: 0.2rem;
+}
+
+.page-header p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Tech tags */
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.tech-tag {
+  padding: 0.18rem 0.6rem;
+  background: var(--badge-purple-bg);
+  color: var(--badge-purple-text);
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* Project tag pill */
+.project-tag {
+  background: var(--badge-purple-bg);
+  color: var(--badge-purple-text);
+  padding: 0.18rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Modal form group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 0.75rem 1rem;
+  width: 100%;
+}
+
+.label-hint {
+  font-weight: 400;
+  color: var(--text-lighter);
+  font-size: 0.8rem;
+  margin-left: 0.3rem;
+}
+
+.field-hint {
+  font-size: 0.78rem;
+  color: var(--text-lighter);
+  margin-top: 0.2rem;
+}
+
+/* Modal actions row */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+/* Smooth theme transition on all elements */
+*, *::before, *::after {
+  transition: background-color 0.25s ease,
+              border-color 0.25s ease,
+              color 0.15s ease,
+              box-shadow 0.25s ease;
+}
+
+/* But NOT on animations — prevents janky transitions */
+.toast, .modal-backdrop, .modal-box,
+.confirm-backdrop, .confirm-box {
+  transition: none;
+}
