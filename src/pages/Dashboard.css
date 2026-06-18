@@ -197,7 +197,52 @@
 }
 
 .user-avatar.small { width: 32px; height: 32px; font-size: 0.85rem; }
+.supervisor-card {
+  margin-bottom: 12px;
+}
 
+.supervisor-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.supervisor-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* ✅ New wrapper: stacks name + contact details vertically */
+.supervisor-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0; /* prevents overflow past flex parent */
+}
+
+.supervisor-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.supervisor-detail {
+  color: #555;
+  font-size: 0.8rem;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .user-info { flex: 1; min-width: 0; }
 .user-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
 .dashboard-user-email {

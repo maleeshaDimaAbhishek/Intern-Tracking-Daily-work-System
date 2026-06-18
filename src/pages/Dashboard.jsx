@@ -164,7 +164,7 @@ function AdminDashboard() {
       {/* ── Welcome Banner ── */}
       <div className="welcome-banner">
         <div>
-          <h1>{user?.role==="supervisor"?"👨‍💼 Supervisor Dashboard" : "🛡️ Admin Dashboard"}</h1>
+          <h1>{user?.role === "supervisor" ? "👨‍💼 Supervisor Dashboard" : "🛡️ Admin Dashboard"}</h1>
           <p>{new Date().toLocaleDateString("en-US", {
             weekday: "long", year: "numeric", month: "long", day: "numeric",
           })}</p>
@@ -555,8 +555,8 @@ function InternDashboard() {
               <div
                 key={dateStr}
                 className={`day-row ${isToday ? "today" :
-                    isWeekend ? "weekend" :
-                      dayTasks.length > 0 ? "submitted" : "missed"
+                  isWeekend ? "weekend" :
+                    dayTasks.length > 0 ? "submitted" : "missed"
                   }`}
               >
                 {/* Date label */}
@@ -627,13 +627,17 @@ function InternDashboard() {
                     key={supervisor.id || supervisor.email || supervisor.name || index}
                     className="supervisor-card"
                   >
-                    <div className="supervisor-avatar">
-                      {(supervisor.name || supervisor.email || "S").charAt(0).toUpperCase()}
-                    </div>
                     <div className="supervisor-info">
-                      <p className="supervisor-name">{supervisor.name || "Supervisor"}</p>
-                      <p className="supervisor-detail">✉️ {supervisor.email || "Email not provided"}</p>
-                      <p className="supervisor-detail">📞 {supervisor.phone || "Mobile no not provided"}</p>
+                      <p className="supervisor-avatar">
+                        {(supervisor.name || supervisor.email || "S").charAt(0).toUpperCase()}
+                      </p>
+
+                      {/* ✅ Wrap name + contact rows in a column container */}
+                      <div className="supervisor-details">
+                        <p className="supervisor-name">{supervisor.name || "Supervisor"}</p>
+                        <p className="supervisor-detail">✉️ {supervisor.email || "Email not provided"}</p>
+                        <p className="supervisor-detail">📞 {supervisor.phone || "Mobile no not provided"}</p>
+                      </div>
                     </div>
                   </div>
                 ))}

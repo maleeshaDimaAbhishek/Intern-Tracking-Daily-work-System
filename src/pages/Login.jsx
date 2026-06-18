@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
+// ✅ Single source of truth for the backend URL — reads from Docker env
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,7 +47,7 @@ function Login() {
   };
 
   const requestLogin = async () => {
-    const firstResponse = await fetch("http://127.0.0.1:8000/auth/login", {
+    const firstResponse = await fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -61,7 +64,7 @@ function Login() {
 
     if (!needsUsernameField) return { response: firstResponse, data: firstData };
 
-    const secondResponse = await fetch("http://127.0.0.1:8000/auth/login", {
+    const secondResponse = await fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ username: email, password }).toString(),
@@ -77,7 +80,7 @@ function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8000/auth/login", {
+      const response = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
