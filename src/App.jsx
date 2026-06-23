@@ -12,9 +12,10 @@ import ForgotPassword from "./pages/ForgotPassword";
 import DownloadReport from "./pages/DownloadReport";
 import ChangePassword from "./pages/ChangePassword";
 import Supervisors from "./pages/Supervisors";
-
-
-
+import LeaveRequest from "./pages/LeaveRequest";
+import LeaveApprovals from "./pages/LeaveApprovals";
+import AdminLeaves from "./pages/AdminLeaves";
+import MyLeaves from "./pages/MyLeaves";
 
 function App() {
   return (
@@ -48,6 +49,22 @@ function App() {
               </ProtectedRoute>
             } />
 
+            <Route
+              path="/leave/apply"
+              element={
+                <ProtectedRoute>
+                  <Layout><LeaveRequest /></Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/leave/all"
+              element={
+                <ProtectedRoute adminOnly>
+                  <Layout><AdminLeaves /></Layout>
+                </ProtectedRoute>
+              }
+            />
             <Route path="/reports" element={
               <ProtectedRoute adminOnly={true}>
                 <Layout><DownloadReport /></Layout>
@@ -59,10 +76,27 @@ function App() {
               </ProtectedRoute>
             } />
 
+            <Route
+              path="/leave/approvals"
+              element={
+                <ProtectedRoute adminOnly>
+                  <Layout><LeaveApprovals /></Layout>
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<Navigate to="/login" replace />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/change-password" element={<ChangePassword />} />
 
+
+            <Route
+              path="/leave/my"
+              element={
+                <ProtectedRoute>
+                  <Layout><MyLeaves /></Layout>
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </AuthProvider>
       </ThemeProvider>

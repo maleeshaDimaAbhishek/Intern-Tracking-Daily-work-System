@@ -16,64 +16,6 @@ function Login() {
   const { login, sessionExpired } = useAuth();
   const navigate = useNavigate();
 
-  const formatApiError = (detail) => {
-    if (!detail) return "Login failed";
-    if (typeof detail === "string") return detail;
-
-    if (Array.isArray(detail)) {
-      return detail
-        .map((item) => {
-          if (typeof item === "string") return item;
-          if (item && typeof item === "object") {
-            const field = Array.isArray(item.loc) ? item.loc.join(".") : "";
-            if (item.msg && field) return `${field}: ${item.msg}`;
-            if (item.msg) return item.msg;
-          }
-          return "Invalid input";
-        })
-        .join(", ");
-    }
-
-    if (typeof detail === "object" && detail.msg) return detail.msg;
-    return "Login failed";
-  };
-
-  const parseJsonSafely = async (response) => {
-    try {
-      return await response.json();
-    } catch {
-      return {};
-    }
-  };
-
-  const requestLogin = async () => {
-    const firstResponse = await fetch(`${BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const firstData = await parseJsonSafely(firstResponse);
-    if (firstResponse.status !== 422) return { response: firstResponse, data: firstData };
-
-    const needsUsernameField =
-      Array.isArray(firstData?.detail) &&
-      firstData.detail.some(
-        (issue) => Array.isArray(issue?.loc) && issue.loc.includes("username")
-      );
-
-    if (!needsUsernameField) return { response: firstResponse, data: firstData };
-
-    const secondResponse = await fetch(`${BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ username: email, password }).toString(),
-    });
-
-    const secondData = await parseJsonSafely(secondResponse);
-    return { response: secondResponse, data: secondData };
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -104,7 +46,7 @@ function Login() {
 
       // Decode JWT payload
       const payload = JSON.parse(atob(data.access_token.split(".")[1]));
-      const userData = { id: payload.sub, role: payload.role, email };
+      const userData = { id: payload.sub, role: payload.role, email ,name: payload.name, phone: payload.phone};
 
       // Pass is_first_login flag to context
       login(data.access_token, userData, data.is_first_login);
@@ -164,7 +106,7 @@ function Login() {
           <div style={{ textAlign: "right", marginTop: "-0.5rem" }}>
             <Link
               to="/forgot-password"
-              style={{ fontSize: "0.85rem", color: "#667eea", textDecoration: "none" }}
+              className="forgot-password-link"
             >
               Forgot password?
             </Link>

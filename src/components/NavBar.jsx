@@ -24,6 +24,13 @@ function NavBar() {
             <div className="navbar-links">
                 <NavLink to="/dashboard" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Dashboard</NavLink>
                 <NavLink to="/daily-work" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Daily Work</NavLink>
+
+                {user?.role === "intern" ? (
+                    <NavLink to="/leave/apply" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                        Apply for Leave
+                    </NavLink>
+                ) : null}
+
                 {/*Only show Projects link to admins*/}
                 {user?.role === "admin" || user?.role === "supervisor" ? (
                     <NavLink to="/projects" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Projects</NavLink>
@@ -42,6 +49,21 @@ function NavBar() {
                 {user?.role === "admin" || user?.role === "supervisor" ? (
                     <NavLink to="/reports" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
                         Reports
+                    </NavLink>
+                ) : null}
+                {user?.role === "supervisor" ? (
+                    <NavLink to="/leave/approvals" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                        Leave Approvals
+                    </NavLink>
+                ) : null}
+                {user?.role === "intern" ? (
+                    <NavLink to="/leave/my" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                        My Leaves
+                    </NavLink>
+                ) : null}
+                {user?.role === "admin" || user?.role === "supervisor" ? (
+                    <NavLink to="/leave/all" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                        All Leaves
                     </NavLink>
                 ) : null}
             </div>
@@ -65,7 +87,7 @@ function NavBar() {
                     >
                         🌑
                     </button>
-            
+
                 </div>
                 <span className={`role-pill ${user?.role}`}>{user?.role}</span>
                 <span className="user-email">{user?.email}</span>
