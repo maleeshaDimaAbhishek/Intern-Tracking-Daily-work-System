@@ -9,7 +9,7 @@ const LEAVE_TYPE_ICON = {
   "Sick Leave":      "🤒",
   "Emergency Leave": "🚨",
   "Personal Leave":  "🧳",
-  "Half Day Leave":  "🕐",
+  "Half-Day Leave":  "🕐",
 };
 
 function LeaveApprovals() {
@@ -54,7 +54,7 @@ function LeaveApprovals() {
     if (req.leave_type === "Sick Leave" || req.leave_type === "Personal Leave") {
       return `${formatDate(req.start_date)} → ${formatDate(req.end_date)}`;
     }
-    if (req.leave_type === "Half Day Leave") {
+    if (req.leave_type === "Half-Day Leave") {
       return `${formatDate(req.leave_date)} (${req.session})`;
     }
     return formatDate(req.leave_date);
@@ -161,7 +161,7 @@ function LeaveApprovals() {
                 </div>
                 <div className="approval-detail-row">
                   <span className="approval-detail-label">🔖 Reference</span>
-                  <span className="approval-detail-value approval-ref">{req.reference_number}</span>
+                  <span className="approval-detail-value approval-ref">{req.reference}</span>
                 </div>
                 <div className="approval-detail-row">
                   <span className="approval-detail-label">💬 Reason</span>
@@ -199,7 +199,7 @@ function LeaveApprovals() {
 
             <div className="approval-summary-strip">
               <p><strong>{selectedRequest.leave_type}</strong> · {getDateRangeLabel(selectedRequest)}</p>
-              <p className="approval-summary-ref">{selectedRequest.reference_number}</p>
+              <p className="approval-summary-ref">{selectedRequest.reference}</p>
             </div>
 
             <div className="form-group">

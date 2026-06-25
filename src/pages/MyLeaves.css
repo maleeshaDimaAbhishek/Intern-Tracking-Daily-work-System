@@ -77,3 +77,57 @@
 }
 
 .ml-download-btn:hover { opacity: 0.9; }
+
+/* ── Medical certificate upload section ── */
+.my-leave-medical-section {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+
+.my-leave-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.ml-upload-btn {
+  padding: 0.5rem 1rem;
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1.5px solid var(--warning-border);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.ml-upload-btn:hover:not(:disabled) {
+  background: var(--warning);
+  color: white;
+}
+
+.ml-upload-btn.overdue {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border-color: var(--danger-border);
+}
+
+.ml-upload-btn.overdue:hover:not(:disabled) {
+  background: var(--danger);
+  color: white;
+}
+
+.ml-upload-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.my-leave-upload-hint {
+  font-size: 0.75rem;
+  color: var(--text-lighter);
+}

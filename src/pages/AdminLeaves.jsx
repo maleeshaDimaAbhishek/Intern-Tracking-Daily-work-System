@@ -7,7 +7,7 @@ const LEAVE_TYPE_ICON = {
   "Sick Leave":      "🤒",
   "Emergency Leave": "🚨",
   "Personal Leave":  "🧳",
-  "Half Day Leave":  "🕐",
+  "Half-Day Leave":  "🕐",
 };
 
 const STATUS_STYLE = {
@@ -69,7 +69,7 @@ function AdminLeaves() {
     if (req.leave_type === "Sick Leave" || req.leave_type === "Personal Leave") {
       return `${formatDate(req.start_date)} → ${formatDate(req.end_date)}`;
     }
-    if (req.leave_type === "Half Day Leave") {
+    if (req.leave_type === "Half-Day Leave") {
       return `${formatDate(req.leave_date)} (${req.session})`;
     }
     return formatDate(req.leave_date);

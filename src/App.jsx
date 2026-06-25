@@ -16,7 +16,7 @@ import LeaveRequest from "./pages/LeaveRequest";
 import LeaveApprovals from "./pages/LeaveApprovals";
 import AdminLeaves from "./pages/AdminLeaves";
 import MyLeaves from "./pages/MyLeaves";
-
+import VerifyLeave from "./pages/VerifyLeave";
 function App() {
   return (
     <BrowserRouter>
@@ -88,6 +88,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/change-password" element={<ChangePassword />} />
 
+            <Route path="/verify/:referenceNumber" element={<VerifyLeave />} />
 
             <Route
               path="/leave/my"

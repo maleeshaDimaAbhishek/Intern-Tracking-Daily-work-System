@@ -37,15 +37,16 @@ export const getLeaveRequestById=async (id)=>{
     if(!response.ok)throw new Error("Failed to fetch leave request");
     return response.json();
 }
-export const cancelLeaveRequest=async (id, reason="")=>{
+export const cancelLeaveRequest=async (id, comment="")=>{
     const response=await apiFetch(`/leave/${id}/cancel/`, {
         method: "PATCH",
-        body: JSON.stringify({reason})
+        body: JSON.stringify({reason: comment})
     });
     const data=await parseJsonSafely(response);
-    if(!response.ok) 
+    if(!response.ok) {
         console.error("Failed to cancel leave request:", data); // Log the error details
         throw new Error(getErrorMessage(data, "Failed to cancel leave request"));
+    }
     return data;
 }
 export const getPendingApprovals=async ()=>{

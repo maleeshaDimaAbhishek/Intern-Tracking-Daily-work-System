@@ -1,0 +1,124 @@
+.verify-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  padding: 1.5rem;
+}
+
+.verify-card {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: 2.2rem;
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 460px;
+}
+
+.verify-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.verify-logo { width: 130px; margin-bottom: 0.6rem; }
+
+.verify-system-name {
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.verify-loading {
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem 0;
+}
+
+.verify-result {
+  text-align: center;
+}
+
+.verify-icon { font-size: 3rem; display: block; margin-bottom: 0.6rem; }
+
+.verify-result h2 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.verify-result.valid h2   { color: var(--success); }
+.verify-result.invalid h2 { color: var(--danger); }
+
+.verify-sub {
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
+}
+
+.verify-ref-display {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text);
+  background: var(--surface-2);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.verify-disclaimer {
+  font-size: 0.82rem;
+  color: var(--text-lighter);
+  line-height: 1.5;
+}
+
+.verify-details {
+  background: var(--surface-2);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1.4rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  border: 1px solid var(--border);
+}
+
+.verify-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.verify-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.verify-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.verify-value {
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 600;
+  text-align: right;
+}
+
+.verify-ref-mono {
+  font-family: var(--font-mono);
+  color: var(--primary);
+}
+
+.verify-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-lighter);
+  margin-top: 1.5rem;
+}

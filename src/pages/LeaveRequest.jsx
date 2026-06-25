@@ -10,7 +10,7 @@ const LEAVE_TYPES = [
   { value: "Sick Leave",      label: "🤒 Sick Leave",      dateMode: "range" },
   { value: "Emergency Leave", label: "🚨 Emergency Leave", dateMode: "single" },
   { value: "Personal Leave",  label: "🧳 Personal Leave",  dateMode: "range" },
-  { value: "Half Day Leave",  label: "🕐 Half Day Leave",  dateMode: "halfday" },
+  { value: "Half-Day Leave",  label: "🕐 Half-Day Leave",  dateMode: "halfday" },
 ];
 
 const getDateMode = (leaveType) =>
@@ -37,7 +37,6 @@ function LeaveRequest() {
   const [success, setSuccess]         = useState("");
 
   useEffect(() => { fetchSupervisors(); }, []);
-  console.log("Supervisors list:", user);
   const fetchSupervisors = async () => {
     setFetching(true);
     try {
@@ -120,7 +119,7 @@ function LeaveRequest() {
     setLoading(true);
     try {
       const result = await submitLeaveRequest(payload);
-      setSuccess(`✅ Leave request submitted! Reference: ${result.reference_number}`);
+      setSuccess(`✅ Leave request submitted! Reference: ${result.reference}`);
       resetForm();
       setTimeout(() => setSuccess(""), 5000);
     } catch (err) {

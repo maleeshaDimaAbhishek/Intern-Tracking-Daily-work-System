@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { getMyLeaveRequests, cancelLeaveRequest, downloadApprovalLetter } from "../api/leave";
+import { useState, useEffect, useRef } from "react";
+import { getMyLeaveRequests, cancelLeaveRequest, downloadApprovalLetter, uploadMedicalCertificate } from "../api/leave";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useConfirm } from "../hooks/useConfirm";
 import Toast from "../components/Toast";
@@ -9,7 +9,7 @@ const LEAVE_TYPE_ICON = {
   "Sick Leave":      "🤒",
   "Emergency Leave": "🚨",
   "Personal Leave":  "🧳",
-  "Half Day Leave":  "🕐",
+  "Half-Day Leave":  "🕐",
 };
 
 const STATUS_STYLE = {
@@ -19,12 +19,27 @@ const STATUS_STYLE = {
   Cancelled: { bg: "var(--surface-2)",  color: "var(--muted)" },
 };
 
+const MEDICAL_STATUS_STYLE = {
+  Pending:   { color: "var(--warning)" },
+  Submitted: { color: "var(--success)" },
+  Overdue:   { color: "var(--danger)" },
+};
+
+const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "application/pdf"];
+const MAX_FILE_SIZE_MB = 5;
+
 function MyLeaves() {
   const [requests, setRequests] = useState([]);
   const [fetching, setFetching] = useState(true);
   const [pageError, setPageError] = useState("");
   const [toast, setToast] = useState(null);
   const { confirm, dialog } = useConfirm();
+
+  // ── Medical certificate upload state ─────────────────────────
+  // Tracks which leave request's file input is currently uploading,
+  // so we can disable just that one button (not all of them at once).
+  const [uploadingId, setUploadingId] = useState(null);
+  const fileInputRefs = useRef({});   // one ref per leave request id
 
   useEffect(() => { fetchMyLeaves(); }, []);
 
@@ -50,7 +65,7 @@ function MyLeaves() {
     if (req.leave_type === "Sick Leave" || req.leave_type === "Personal Leave") {
       return `${formatDate(req.start_date)} → ${formatDate(req.end_date)}`;
     }
-    if (req.leave_type === "Half Day Leave") {
+    if (req.leave_type === "Half-Day Leave") {
       return `${formatDate(req.leave_date)} (${req.session})`;
     }
     return formatDate(req.leave_date);
@@ -59,7 +74,7 @@ function MyLeaves() {
   const handleCancel = async (req) => {
     const ok = await confirm({
       title: "Cancel Leave Request",
-      message: `Are you sure you want to cancel your ${req.leave_type} request (${req.reference_number})?`,
+      message: `Are you sure you want to cancel your ${req.leave_type} request (${req.reference})?`,
       confirmText: "Yes, Cancel",
       confirmType: "danger",
     });
@@ -76,10 +91,51 @@ function MyLeaves() {
 
   const handleDownload = async (req) => {
     try {
-      await downloadApprovalLetter(req.id, req.reference_number);
+      await downloadApprovalLetter(req.id, req.reference);
     } catch (err) {
       showToast(err?.message || "Failed to download letter.", "error");
     }
+  };
+
+  // ── Triggered when the hidden <input type="file"> changes ────
+  const handleFileSelected = async (req, e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // ── Client-side validation mirrors backend rules exactly ────
+    if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+      showToast("Invalid file type. Only PDF, JPEG, or PNG allowed.", "error");
+      e.target.value = "";   // reset so the same bad file can be re-selected after fixing
+      return;
+    }
+    if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      showToast(`File too large. Maximum size is ${MAX_FILE_SIZE_MB}MB.`, "error");
+      e.target.value = "";
+      return;
+    }
+
+    setUploadingId(req.id);
+    try {
+      await uploadMedicalCertificate(req.id, file);
+      // Update just this one request's medical_status locally —
+      // avoids a full re-fetch for a single field change.
+      setRequests(requests.map((r) =>
+        r.id === req.id ? { ...r, medical_status: "Submitted" } : r
+      ));
+      showToast("Medical certificate uploaded successfully.", "success");
+    } catch (err) {
+      showToast(err?.message || "Failed to upload medical certificate.", "error");
+    } finally {
+      setUploadingId(null);
+      e.target.value = "";   // allow re-selecting the same filename later if needed
+    }
+  };
+
+  // Clicking our styled button just forwards the click to the
+  // hidden native file input — this is the standard way to
+  // style file inputs since the native one can't be styled directly.
+  const triggerFilePicker = (reqId) => {
+    fileInputRefs.current[reqId]?.click();
   };
 
   return (
@@ -121,19 +177,47 @@ function MyLeaves() {
 
               <p className="my-leave-dates">📅 {getDateRangeLabel(req)}</p>
               <p className="my-leave-reason">{req.reason}</p>
-              <p className="my-leave-ref">{req.reference_number}</p>
+              <p className="my-leave-ref">{req.reference}</p>
 
               {req.medical_status && (
-                <p className="my-leave-medical">
-                  🩺 Medical Certificate:{" "}
-                  <strong style={{
-                    color:
-                      req.medical_status === "Submitted" ? "var(--success)" :
-                      req.medical_status === "Overdue"   ? "var(--danger)"  : "var(--warning)",
-                  }}>
-                    {req.medical_status}
-                  </strong>
-                </p>
+                <div className="my-leave-medical-section">
+                  <p className="my-leave-medical">
+                    🩺 Medical Certificate:{" "}
+                    <strong style={{ color: MEDICAL_STATUS_STYLE[req.medical_status]?.color }}>
+                      {req.medical_status}
+                    </strong>
+                  </p>
+
+                  {/* Only show upload UI while it's still needed */}
+                  {/* Upload only allowed once the leave itself is Approved —
+                      checking medical_status alone isn't enough on its own,
+                      since the frontend shouldn't rely on backend invariants
+                      it can't see directly. */}
+                  {req.status === "Approved" &&
+                    (req.medical_status === "Pending" || req.medical_status === "Overdue") && (
+                    <div className="my-leave-upload-row">
+                      {/* Hidden native file input — triggered via the styled button below */}
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        ref={(el) => (fileInputRefs.current[req.id] = el)}
+                        onChange={(e) => handleFileSelected(req, e)}
+                        style={{ display: "none" }}
+                      />
+                      <button
+                        type="button"
+                        className={`ml-upload-btn ${req.medical_status === "Overdue" ? "overdue" : ""}`}
+                        onClick={() => triggerFilePicker(req.id)}
+                        disabled={uploadingId === req.id}
+                      >
+                        {uploadingId === req.id
+                          ? "Uploading..."
+                          : "📎 Upload Medical Certificate"}
+                      </button>
+                      <span className="my-leave-upload-hint">PDF, JPEG, or PNG · Max 5MB</span>
+                    </div>
+                  )}
+                </div>
               )}
 
               <div className="my-leave-actions">
