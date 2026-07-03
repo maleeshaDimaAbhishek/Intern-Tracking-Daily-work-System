@@ -27,7 +27,15 @@ function NavBar() {
             <div className="navbar-links">
                 <NavLink to="/dashboard" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Dashboard</NavLink>
                 <NavLink to="/daily-work" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Daily Work</NavLink>
-
+                {isAdminOrSupervisor ? (
+                    <NavLink to="/projects" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Projects</NavLink>
+                ) : null}
+                {isAdminOrSupervisor ? (
+                    <NavLink to="/users" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Users</NavLink>
+                ) : null}
+                {user?.role === "admin" ? (
+                    <NavLink to="/supervisors" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Supervisors</NavLink>
+                ) : null}
                 {/* Apply for Leave — intern only, per earlier decision */}
                 {user?.role === "intern" ? (
                     <NavLink to="/leave/apply" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
@@ -36,31 +44,34 @@ function NavBar() {
                 ) : null}
 
                 {/* My Leaves — visible to everyone, shows their own history */}
-                <NavLink to="/leave/my" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
-                    My Leaves
-                </NavLink>
+                {user?.role === "intern" ? (
+                    <NavLink to="/leave/my" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                        My Leaves
+                    </NavLink>
+                ) : null}
 
                 {/* Leave Approvals — admin + supervisor only */}
-                {isAdminOrSupervisor ? (
+                {user?.role === "supervisor" ? (
                     <NavLink to="/leave/approvals" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
                         Leave Approvals
                     </NavLink>
                 ) : null}
 
-                {/* All Leaves — admin only, org-wide view */}
-                {user?.role === "supervisor" ? (
+                {/* Leave history view — admin sees org-wide, supervisor sees
+                    only their own team (the backend scopes this automatically
+                    via GET /leave/, same endpoint, different result per role).
+                    This is the only place a supervisor can see medical
+                    certificates for requests they already decided on, since
+                    those disappear from "Leave Approvals" once acted upon. */}
+                {isAdminOrSupervisor ? (
                     <NavLink to="/leave/all" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
-                        All Leaves
+                        {user?.role === "admin" ? "All Leaves" : "Leave History"}
                     </NavLink>
                 ) : null}
 
                 {/*Only show Projects link to admins*/}
-                {isAdminOrSupervisor ? (
-                    <NavLink to="/projects" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Projects</NavLink>
-                ) : null}
-                {isAdminOrSupervisor ? (
-                    <NavLink to="/users" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Users</NavLink>
-                ) : null}
+                
+                
                 {isAdminOrSupervisor ? (
                     <NavLink to="/reports" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
                         Reports
@@ -70,27 +81,22 @@ function NavBar() {
             {/*Right side — user info + logout*/}
             <div className="navbar-user">
                 <NotificationBell />
-                <div className="theme-switcher" role="group" aria-label="Theme switcher">
-                    <button
-                        type="button"
-                        className={`theme-option ${themePreference === "light" ? "active" : ""}`}
-                        onClick={() => setTheme("light")}
-                        aria-pressed={themePreference === "light"}
-                    >
-                        ☀️
-                    </button>
-                    <button
-                        type="button"
-                        className={`theme-option ${themePreference === "dark" ? "active" : ""}`}
-                        onClick={() => setTheme("dark")}
-                        aria-pressed={themePreference === "dark"}
-                    >
-                        🌗
-                    </button>
-                </div>
                 <span className={`role-pill ${user?.role}`}>{user?.role}</span>
                 <span className="user-email">{user?.email}</span>
                 <button onClick={handleLogout} className="logout-btn">Sign Out</button>
+                <div className="theme-switcher" role="group" aria-label="Theme switcher">
+                    <button
+                        type="button"
+                        className="theme-toggle"
+                        onClick={() =>
+                            setTheme(resolvedTheme === "light" ? "dark" : "light")
+                        }
+                        aria-label={`Switch to ${resolvedTheme === "light" ? "dark" : "light"
+                            } mode`}
+                    >
+                        {resolvedTheme === "light" ? "☀️" : "🌙"}
+                    </button>
+                </div>
             </div>
         </nav>
     );

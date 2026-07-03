@@ -64,10 +64,10 @@ export const getPendingApprovals=async ()=>{
     return response.json();
 }
 // ── [Supervisor] Approve or reject a leave request ───────────────
-export const decideLeaveRequest=async (id, decision, comment="")=>{
+export const decideLeaveRequest=async (id, decision, comments)=>{
     const response=await apiFetch(`/leave/${id}/decide/`, {
         method: "POST",
-        body: JSON.stringify({decision, comment})
+        body: JSON.stringify({decision, comments})
     });
     const data=await parseJsonSafely(response);
     if(!response.ok) throw new Error(getErrorMessage(data, "Failed to decide leave request"));
@@ -88,7 +88,7 @@ export const uploadMedicalCertificate=async (id, file)=>{
     return data;
 }
 export const getMedicalCertificateStatus=async (id)=>{
-    const response=await apiFetch(`/leave/${id}/medical/`);
+    const response=await apiFetch(`/leave/${id}/medical`);
     if(!response.ok)throw new Error("Failed to fetch medical certificate status");
     return response.json();
 }

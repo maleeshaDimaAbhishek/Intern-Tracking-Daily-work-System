@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
-import { getMyLeaveRequests, getLeaveRequestById, getAuditLogsByLeave, downloadApprovalLetter } from "../api/leave";
+import { useAuth } from "../context/AuthContext";
+import { getMyLeaveRequests, getLeaveRequestById, getAuditLogsByLeave, downloadApprovalLetter, getMedicalCertificateStatus } from "../api/leave";
 import Modal from "../components/Modal";
 import "./AdminLeaves.css";
+
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 const LEAVE_TYPE_ICON = {
   "Sick Leave":      "🤒",
@@ -29,6 +32,9 @@ const ACTION_LABEL = {
 };
 
 function AdminLeaves() {
+  const { user } = useAuth();
+  const isAdmin  = user?.role === "admin";
+
   const [requests, setRequests]   = useState([]);
   const [fetching, setFetching]   = useState(true);
   const [pageError, setPageError] = useState("");
@@ -43,6 +49,7 @@ function AdminLeaves() {
   const [detailLoading, setDetailLoading] = useState(false);
   const [auditLogs, setAuditLogs]         = useState([]);
   const [auditLoading, setAuditLoading]   = useState(false);
+  const [medicalCert, setMedicalCert]     = useState(null);   // holds file_path once fetched
 
   useEffect(() => { fetchRequests(); }, []);
 
@@ -82,7 +89,7 @@ function AdminLeaves() {
       !q ||
       (req.user_name || "").toLowerCase().includes(q) ||
       (req.user_email || "").toLowerCase().includes(q) ||
-      (req.reference_number || "").toLowerCase().includes(q);
+      (req.reference || "").toLowerCase().includes(q);
 
     const matchesStatus = !statusFilter || req.status === statusFilter;
     const matchesType   = !typeFilter   || req.leave_type === typeFilter;
@@ -96,8 +103,11 @@ function AdminLeaves() {
     setAuditLoading(true);
     setSelectedLeave(null);
     setAuditLogs([]);
+    setMedicalCert(null);
+
+    let detail = null;
     try {
-      const detail = await getLeaveRequestById(leaveId);
+      detail = await getLeaveRequestById(leaveId);
       setSelectedLeave(detail);
     } catch {
       setSelectedLeave({ error: true });
@@ -113,18 +123,30 @@ function AdminLeaves() {
     } finally {
       setAuditLoading(false);
     }
+
+    // Only Sick Leave can ever have a certificate — skip the call
+    // entirely otherwise (it would 404 on the backend anyway).
+    if (detail && detail.leave_type === "Sick Leave" && detail.medical_status) {
+      try {
+        const cert = await getMedicalCertificateStatus(leaveId);
+        setMedicalCert(cert);
+      } catch {
+        setMedicalCert(null);
+      }
+    }
   };
 
   const closeDetail = () => {
     setSelectedLeave(null);
     setAuditLogs([]);
+    setMedicalCert(null);
   };
 
   return (
     <div className="admin-leaves-container">
       <div className="page-header">
         <div>
-          <h1>🗂️ All Leave Requests</h1>
+          <h1>🗂️ {isAdmin ? "All Leave Requests" : "Team Leave Requests"}</h1>
           <p>{filteredRequests.length} of {requests.length} request{requests.length !== 1 ? "s" : ""}</p>
         </div>
       </div>
@@ -218,7 +240,7 @@ function AdminLeaves() {
                       {req.status}
                     </span>
                   </td>
-                  <td className="al-ref">{req.reference_number}</td>
+                  <td className="al-ref">{req.reference}</td>
                   <td className="al-date-cell">{formatDate(req.created_at)}</td>
                   <td className="al-view-hint">View →</td>
                 </tr>
@@ -267,7 +289,7 @@ function AdminLeaves() {
                 </div>
                 <div>
                   <p className="al-detail-section-title">Reference</p>
-                  <p className="al-detail-main al-ref">{selectedLeave.reference_number}</p>
+                  <p className="al-detail-main al-ref">{selectedLeave.reference}</p>
                 </div>
               </div>
 
@@ -299,6 +321,26 @@ function AdminLeaves() {
                   >
                     {selectedLeave.medical_status}
                   </span>
+
+                  {/* Only show a file link once it's actually been uploaded.
+                      file_path comes from a SEPARATE call (getMedicalCertificateStatus)
+                      since the main leave detail response never includes the raw path. */}
+                  {selectedLeave.medical_status === "Submitted" && (
+                    medicalCert?.file_path ? (
+                      <a
+                        href={`${BASE_URL}/${medicalCert.file_path}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="al-medical-file-link"
+                      >
+                        📎 View Uploaded Certificate
+                      </a>
+                    ) : (
+                      <p className="al-detail-body" style={{ marginTop: "0.4rem" }}>
+                        Loading file link...
+                      </p>
+                    )
+                  )}
                 </div>
               )}
 
@@ -320,7 +362,7 @@ function AdminLeaves() {
               {selectedLeave.status === "Approved" && (
                 <button
                   className="al-download-btn"
-                  onClick={() => downloadApprovalLetter(selectedLeave.id, selectedLeave.reference_number)}
+                  onClick={() => downloadApprovalLetter(selectedLeave.id, selectedLeave.reference)}
                 >
                   📄 Download Approval Letter (PDF)
                 </button>

@@ -79,8 +79,14 @@ function NotificationBell() {
   // ── Clicking a notification navigates to the related leave ───
   const handleNotificationClick = (notif) => {
     setIsOpen(false);
-    if (notif.leave_request_id) {
+    if (notif.type=="leave_submitted") {
+      navigate(`/leave/approvals`);   // simplest target — could deep-link later
+    }
+    else if (notif.type=="leave_approved" || notif.type=="leave_rejected") {
       navigate(`/leave/my`);   // simplest target — could deep-link later
+    }
+    else if (notif.type.startsWith("medical_")) {
+      navigate(`/leave/all`);
     }
   };
 

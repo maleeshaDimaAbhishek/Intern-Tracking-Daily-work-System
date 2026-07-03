@@ -220,3 +220,42 @@
 }
 
 .al-download-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.al-medical-file-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 10px;
+    margin-top: 6px;
+
+    background: #5a25eb;
+    color: #fff;
+    text-decoration: none;
+
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+
+.al-medical-file-link:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+
+.al-medical-file-link:active {
+    transform: translateY(0);
+}
+
+.al-medical-file-link:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.35);
+    outline-offset: 3px;
+}
+
+.al-medical-file-link svg,
+.al-medical-file-link i {
+    font-size: 16px;
+}

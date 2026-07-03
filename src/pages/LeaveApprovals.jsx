@@ -12,6 +12,28 @@ const LEAVE_TYPE_ICON = {
   "Half-Day Leave":  "🕐",
 };
 
+const DISMISSED_LEAVE_SUBMITTED_KEY = "dismissed_leave_submitted_refs";
+
+const markLeaveSubmittedNotificationDismissed = (reference) => {
+  if (!reference) return;
+
+  try {
+    const raw = localStorage.getItem(DISMISSED_LEAVE_SUBMITTED_KEY);
+    const parsed = JSON.parse(raw || "[]");
+    const existing = Array.isArray(parsed) ? parsed : [];
+
+    const normalizedRef = String(reference).toUpperCase();
+    if (existing.includes(normalizedRef)) return;
+
+    localStorage.setItem(
+      DISMISSED_LEAVE_SUBMITTED_KEY,
+      JSON.stringify([...existing, normalizedRef])
+    );
+  } catch {
+    // Ignore localStorage issues so approval flow is never blocked.
+  }
+};
+
 function LeaveApprovals() {
   const [requests, setRequests] = useState([]);
   const [fetching, setFetching] = useState(true);
@@ -22,7 +44,7 @@ function LeaveApprovals() {
   // ── Decision modal state ──────────────────────────────────────
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [decision, setDecision] = useState("");   // "Approved" | "Rejected"
-  const [comment, setComment]   = useState("");
+  const [comments, setComment]   = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [modalError, setModalError] = useState("");
 
@@ -42,7 +64,6 @@ function LeaveApprovals() {
   };
 
   const showFeedback = (message, type = "success") => {
-    setFeedback({ message, type });
     setToast({ message, type });
   };
 
@@ -79,14 +100,25 @@ function LeaveApprovals() {
     e.preventDefault();
     setModalError("");
 
-    if (decision === "Rejected" && comment.trim().length === 0) {
+    if (decision === "Rejected" && comments.trim().length === 0) {
       setModalError("Please provide a reason for rejection.");
       return;
     }
 
     setSubmitting(true);
     try {
-      await decideLeaveRequest(selectedRequest.id, decision, comment.trim());
+      const trimmedComment = comments.trim();
+      await decideLeaveRequest(
+        selectedRequest.id,
+        decision,
+        trimmedComment
+      );
+
+      // Once a supervisor decides, the original "leave_submitted" notif is no
+      // longer actionable and should disappear from the bell list.
+      markLeaveSubmittedNotificationDismissed(selectedRequest.reference);
+      window.dispatchEvent(new Event("notifications:refresh"));
+
       setRequests((currentRequests) => currentRequests.filter((r) => r.id !== selectedRequest.id));
       showFeedback(
         decision === "Approved"
@@ -214,7 +246,7 @@ function LeaveApprovals() {
                     ? "e.g. Approved. Please plan your handover before leave starts."
                     : "Please explain why this request is being rejected..."
                 }
-                value={comment}
+                value={comments}
                 onChange={(e) => setComment(e.target.value)}
                 rows={3}
               />

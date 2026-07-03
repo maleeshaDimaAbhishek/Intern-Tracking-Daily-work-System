@@ -165,3 +165,52 @@
   .user-email   { display: none; }
   .theme-option { padding: 0.28rem 0.45rem; font-size: 0.7rem; }
 }
+.leave-dropdown {
+    margin-top: 0.4rem;
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    background: var(--card-bg, #fff);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: inherit;
+    white-space: nowrap;
+}
+
+.dropdown-item:hover,
+.dropdown-item.active {
+    background: rgba(0,0,0,0.08);
+}
+.theme-toggle {
+    width: 27px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: var(--surface-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.08);
+    background: var(--primary-color);
+    color: white;
+}
