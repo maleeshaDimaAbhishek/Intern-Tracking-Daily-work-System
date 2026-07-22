@@ -214,3 +214,186 @@
     background: var(--primary-color);
     color: white;
 }
+/* NavBar.css */
+
+/* Hamburger Button (Desktop වල පේන්නෙ නෑ) */
+/* ── Hamburger Button ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  width: 40px;
+  height: 40px;
+}
+
+.hamburger:hover {
+  background: var(--hover-bg);
+}
+
+/* ── The 3 lines inside the hamburger ── */
+.hamburger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* ── Animate lines into X when open ── */
+.hamburger.open .hamburger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger.open .hamburger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ── Mobile Styles ── */
+@media (max-width: 900px) {
+
+  .hamburger {
+    display: flex;  /* show on mobile */
+  }
+
+  .navbar {
+    flex-wrap: nowrap;
+    position: relative;
+    height: 64px;
+    padding: 0 1rem;
+  }
+
+  .navbar-links {
+    display: flex;
+    flex-direction: column;
+    position: fixed;          /* fixed so it overlays everything */
+    top: 64px;
+    left: 0;
+    width: 70%;
+    height: calc(100vh - 64px);
+    overflow-y: auto;  
+    padding-bottom: 3rem;
+    background: var(--surface);
+    padding: 1rem 0;
+    box-shadow: var(--shadow-lg);
+    border-top: 1px solid var(--border);
+    z-index: 999;
+    overflow-y: auto;
+
+    /* hidden by default */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  /* shown when hamburger is clicked */
+  .navbar-links.show {
+    flex-wrap: nowrap !important;
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+
+  .nav-link {
+    padding: 1rem 1.5rem;
+    border-radius: 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 1rem;
+    font-weight: 500;
+    width: 100%;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background: var(--active-bg);
+    color: var(--primary);
+    padding-left: 2rem;    /* indent on hover for nice feel */
+  }
+
+  .navbar-user {
+    gap: 0.4rem;
+  }
+
+  /* hide email on small screens — saves space */
+  .user-email {
+    display: none;
+  }
+
+  /* smaller role pill */
+  .role-pill {
+    display: none !important;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+  }
+  .logout-btn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  .navbar-brand {
+    gap: 0.2rem;
+  }
+}
+
+/* ── Very small screens (phones) ── */
+@media (max-width: 400px) {
+
+  .navbar {
+    padding: 0 0.75rem;
+  }
+
+  .navbar-logo {
+    height: 28px;
+  }
+
+  .theme-switcher {
+    display: none;   /* hide theme switcher on tiny screens */
+  }
+
+  .logout-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.78rem;
+  }
+}
+/* Default */
+.desktop-theme {
+    display: block;
+}
+
+.mobile-theme {
+    display: none;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+    .desktop-theme {
+        display: none;
+    }
+
+    .mobile-theme {
+        display: flex;
+        justify-content: center;
+        padding: 1rem 0 0.5rem;
+        border-top: 1px solid var(--border);
+        margin-top: 0.5rem;
+    }
+
+    .mobile-theme .theme-switcher {
+        width: fit-content;
+    }
+}
+

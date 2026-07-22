@@ -134,9 +134,39 @@
   margin-top: 0.3rem;
 }
 
+/* =========================================
+   MOBILE RESPONSIVENESS (Media Queries)
+   ========================================= */
+
 @media (max-width: 480px) {
+  /* Break out of the relative parent to prevent horizontal overflow */
   .notif-dropdown {
-    width: calc(100vw - 2rem);
-    right: -0.5rem;
+    position: fixed;
+    top: 4.5rem;  /* Positions it just below a standard navbar */
+    left: 1rem;
+    right: 1rem;
+    width: auto;  /* Fills the space evenly between left and right */
+    max-height: calc(100vh - 6rem); /* Prevents it from going off the bottom of the screen */
+    z-index: 1000;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* Stronger shadow to separate it from background */
+  }
+
+  .notif-list {
+    max-height: calc(100vh - 10rem);
+    -webkit-overflow-scrolling: touch; /* Enables native momentum scrolling on iOS */
+  }
+
+  /* Increase padding to make items easier to tap with a thumb */
+  .notif-item {
+    padding: 1rem 1.1rem;
+  }
+
+  /* Slightly bump up text size for mobile legibility */
+  .notif-item-title {
+    font-size: 0.9rem;
+  }
+
+  .notif-item-message {
+    font-size: 0.85rem;
   }
 }

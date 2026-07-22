@@ -152,9 +152,50 @@
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
 .login-logo {
   width: 180px;
   height: auto;
   object-fit: contain;
   margin-bottom: 1rem;
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS (Media Queries)
+   ========================================= */
+
+@media screen and (max-width: 480px) {
+  .login-container {
+    padding: 0.5rem; /* Reduces outer spacing to give more room to the card */
+  }
+
+  .login-card {
+    padding: 1.5rem 1rem; /* Significantly reduces internal padding so inputs have room to stretch */
+    border-radius: 12px; /* Slightly softer corners on mobile */
+  }
+
+  .login-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .login-logo {
+    width: 140px; /* Scales down the logo to prevent it from dominating the screen */
+    margin-bottom: 0.75rem;
+  }
+
+  .login-header h2 {
+    font-size: 1.35rem; /* Scales down heading */
+  }
+
+  .login-header p {
+    font-size: 0.85rem;
+  }
+
+  .form-group input {
+    padding: 0.7rem 0.85rem; /* Slightly tighter padding for inputs while maintaining a good touch target size */
+  }
+
+  .login-btn {
+    padding: 0.8rem; /* Keeps the button highly tappable for thumbs */
+  }
 }

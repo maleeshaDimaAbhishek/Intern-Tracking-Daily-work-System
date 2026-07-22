@@ -43,7 +43,7 @@ function Users() {
         isSupervisor ? getAllProjects() : getAllProjects(),
         // supervisor's GET /projects/ already returns only their projects
       ]);
-      setUsers(usersData.filter(u=>u.role === "intern"));
+      setUsers(usersData.filter(u => u.role === "intern"));
       setProjects(projectsData);
     } catch (err) {
       setPageError("Could not load data.");
@@ -180,7 +180,7 @@ function Users() {
           <table className="users-table">
             <thead>
               <tr>
-                <th>#</th><th>Name</th><th>Email</th>
+                <th>#</th><th>Name</th><th>Email</th><th>Phone</th>
                 <th>Role</th><th>Joined</th><th>Actions</th>
               </tr>
             </thead>
@@ -190,7 +190,10 @@ function Users() {
                   <td className="td-index">{index + 1}</td>
                   <td className="td-name">{user.name}</td>
                   <td className="td-email">{user.email}</td>
-                  <td><span className={`badge ${user.role}`}>{user.role}</span></td>
+                  <td className="td-phone">{user.phone}</td>
+                  <td className="td-role">
+                    <span className={`badge ${user.role}`}>{user.role}</span>
+                  </td>
                   <td className="td-date">
                     {new Date(user.created_at).toLocaleDateString("en-US", {
                       year: "numeric", month: "short", day: "numeric",
@@ -234,6 +237,7 @@ function Users() {
                   name="name" type="text"
                   placeholder="e.g. Kasun Perera"
                   value={form.name}
+                  maxLength={100}
                   onChange={handleFormChange}
                   required
                 />
@@ -247,6 +251,7 @@ function Users() {
                 placeholder="kasun@example.com"
                 value={form.email}
                 onChange={handleFormChange}
+                maxLength={100}
                 required
               />
             </div>
@@ -257,6 +262,7 @@ function Users() {
                 name="phone"
                 type="tel"
                 placeholder="e.g. +94771234567"
+                maxLength={15}
                 value={form.phone || ""}
                 onChange={handleFormChange}
               />

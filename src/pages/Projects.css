@@ -82,8 +82,14 @@
   transition: opacity 0.2s;
 }
 
-.primary-btn:hover { opacity: 0.9; }
-.primary-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
+.primary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 .secondary-btn {
   padding: 0.65rem 1.3rem;
@@ -97,7 +103,10 @@
   transition: all 0.2s;
 }
 
-.secondary-btn:hover { border-color: var(--primary); color: var(--primary); }
+.secondary-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
 
 .delete-btn {
   padding: 0.3rem 0.8rem;
@@ -137,6 +146,8 @@
 .form-group input,
 .form-group textarea,
 .form-group select {
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.7rem 1rem;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
@@ -183,6 +194,7 @@
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
+
 /* Tech Stack Tags */
 .tech-stack {
   display: flex;
@@ -223,6 +235,7 @@
   line-height: 1.5;
   margin-top: 0.3rem;
 }
+
 /* Project info strip inside modal */
 .project-info-strip {
   background: #f5f3ff;
@@ -253,8 +266,19 @@
   font-weight: 700;
   flex-shrink: 0;
 }
-.msg.error { background: #fff5f5; color: #e53e3e; border: 1px solid #fed7d7; }
-.msg.success { background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; }
+
+.msg.error {
+  background: #fff5f5;
+  color: #e53e3e;
+  border: 1px solid #fed7d7;
+}
+
+.msg.success {
+  background: #f0fff4;
+  color: #276749;
+  border: 1px solid #c6f6d5;
+}
+
 /* Clickable card */
 .clickable-card {
   cursor: pointer;
@@ -366,9 +390,12 @@
   color: #166534;
   background: #dcfce7;
 }
+
 .badge.role-supervisor {
-  background: #aedaf4; color: #0c3ebd;
+  background: #aedaf4;
+  color: #0c3ebd;
 }
+
 @media (max-width: 560px) {
   .team-member-row {
     grid-template-columns: 24px 38px 1fr;
@@ -380,6 +407,7 @@
     margin-top: 0.28rem;
   }
 }
+
 /* Status badge */
 .card-top-row {
   display: flex;
@@ -389,7 +417,10 @@
   margin-bottom: 0.4rem;
 }
 
-.card-top-row h3 { font-size: 1.05rem; color: #333; }
+.card-top-row h3 {
+  font-size: 1.05rem;
+  color: #333;
+}
 
 .status-badge {
   padding: 0.22rem 0.75rem;
@@ -416,8 +447,13 @@
   transition: background 0.3s;
 }
 
-.progress-step.done   { background: #667eea; }
-.progress-step.active { background: #764ba2; }
+.progress-step.done {
+  background: #667eea;
+}
+
+.progress-step.active {
+  background: #764ba2;
+}
 
 /* Status advance button */
 .status-advance-btn {
@@ -439,12 +475,14 @@
   background: #276749;
   color: white;
 }
+
 .project-supervisor {
   font-size: 0.8rem;
   color: #667eea;
   font-weight: 500;
   margin-top: 0.4rem;
 }
+
 /* ── Search & Filter Toolbar ── */
 .projects-toolbar {
   display: flex;
@@ -504,7 +542,9 @@
   transition: var(--transition);
 }
 
-.search-clear-btn:hover { color: var(--text); }
+.search-clear-btn:hover {
+  color: var(--text);
+}
 
 /* Status filter dropdown */
 .status-filter-select {
@@ -526,7 +566,9 @@
   padding-right: 2.2rem;
 }
 
-.status-filter-select:focus { border-color: var(--primary); }
+.status-filter-select:focus {
+  border-color: var(--primary);
+}
 
 /* Clear filters button */
 .clear-filters-btn {
@@ -547,11 +589,140 @@
   background: var(--danger);
   color: white;
 }
+/* Description Modal Styling */
+.description-modal-content {
+  padding: 0.5rem 0;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.full-description-text {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+  white-space: pre-wrap; /* Preserves any line breaks in the description */
+}
+/* Show More / Show Less Toggle Button */
+/* Show More / Show Less Toggle Button */
+.show-more-btn {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  
+  /* Increase tap target size for mobile screens */
+  padding: 0.5rem; 
+  margin: -0.5rem 0 -0.5rem 0.1rem; 
+  
+  font-family: inherit;
+  transition: opacity 0.2s;
+  position: relative;
+  z-index: 10; /* Ensures the button sits above the card's click area */
+}
+
+.show-more-btn:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
 
 /* Responsive */
 @media (max-width: 600px) {
-  .projects-toolbar        { flex-direction: column; align-items: stretch; }
-  .projects-search-box     { min-width: 100%; }
-  .status-filter-select    { width: 100%; }
-  .clear-filters-btn       { width: 100%; text-align: center; }
+  .projects-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .projects-search-box {
+    min-width: 100%;
+  }
+
+  .status-filter-select {
+    width: 100%;
+  }
+
+  .clear-filters-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS (Media Queries)
+   ========================================= */
+
+/* Tablet & Large Phones */
+@media screen and (max-width: 768px) {
+
+
+  /* Wrap the card footer content */
+  .project-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  /* Group and size the action buttons */
+  .card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  /* Make buttons stretch for easier tapping */
+  .status-advance-btn,
+  .card-actions .edit-btn,
+  .delete-btn {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    padding: 0.5rem;
+  }
+}
+
+/* Small Phones */
+@media screen and (max-width: 480px) {
+
+  .modal-form {
+    max-height: 65vh;
+    /* Restricts height so it doesn't break out of the modal */
+    overflow-y: auto;
+    /* Adds a scrollbar if the content is too tall */
+    padding-right: 0.5rem;
+    /* Adds breathing room for the scrollbar */
+  }
+
+  /* Make the select dropdown text wrap better on narrow screens */
+  .form-group select {
+    text-overflow: ellipsis;
+    padding-right: 2rem;
+  }
+
+  /* Stack card title and status badge */
+  .card-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .status-badge {
+    align-self: flex-start;
+    /* Keeps the badge size intact */
+  }
+
+  /* Modal form buttons: Stack them with Primary action on top */
+  .modal-actions {
+    flex-direction: column-reverse;
+    gap: 0.6rem;
+    margin-top: 1rem;
+  }
+
+  .modal-actions button {
+    width: 100%;
+    padding: 0.85rem;
+    margin: 0;
+  }
 }

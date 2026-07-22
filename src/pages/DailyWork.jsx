@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 import { submitTask, getMyTasks } from "../api/dailyWork";
 import { getMyProjects } from "../api/projects";
 import "./DailyWork.css";
 
 function DailyWork() {
+  const { user } = useAuth();
   const [description, setDescription] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);  // ← array now
   const [projects, setProjects] = useState([]);

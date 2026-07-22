@@ -44,7 +44,9 @@
   padding: 0.2rem 0.4rem;
 }
 
-.search-clear-btn:hover { color: var(--text); }
+.search-clear-btn:hover {
+  color: var(--text);
+}
 
 .al-filter-select {
   padding: 0.7rem 1rem;
@@ -71,7 +73,10 @@
   white-space: nowrap;
 }
 
-.clear-filters-btn:hover { background: var(--danger); color: white; }
+.clear-filters-btn:hover {
+  background: var(--danger);
+  color: white;
+}
 
 /* ── Table ── */
 .table-card {
@@ -87,7 +92,9 @@
   border-collapse: collapse;
 }
 
-.al-table thead { background: var(--surface-2); }
+.al-table thead {
+  background: var(--surface-2);
+}
 
 .al-table th {
   padding: 0.9rem 1.1rem;
@@ -108,16 +115,49 @@
   vertical-align: middle;
 }
 
-.al-table tbody tr:last-child td { border-bottom: none; }
+.al-table tbody tr:last-child td {
+  border-bottom: none;
+}
 
-.al-row { cursor: pointer; transition: background 0.15s; }
-.al-row:hover { background: var(--hover-bg); }
+.al-row {
+  cursor: pointer;
+  transition: background 0.15s;
+}
 
-.al-emp-name  { font-weight: 600; color: var(--text); }
-.al-emp-email { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
-.al-date-cell { font-size: 0.82rem; color: var(--text-soft); white-space: nowrap; }
-.al-ref       { font-family: var(--font-mono); color: var(--primary); font-weight: 700; font-size: 0.82rem; }
-.al-view-hint { color: var(--primary); font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+.al-row:hover {
+  background: var(--hover-bg);
+}
+
+.al-emp-name {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.al-emp-email {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+
+.al-date-cell {
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  white-space: nowrap;
+}
+
+.al-ref {
+  font-family: var(--font-mono);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.al-view-hint {
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
 
 .al-status-badge {
   display: inline-block;
@@ -127,7 +167,26 @@
   font-weight: 700;
   text-transform: uppercase;
 }
+.al-download-btn {
+    padding: 0.75rem 1.2rem;
+    align-self: center;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.92rem;
+    font-weight: 700;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: var(--transition);
+    width: 70%;
+    margin-top: 1rem;
+  }
 
+  .al-download-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
 /* ── Detail modal ── */
 .al-detail-modal {
   display: flex;
@@ -150,9 +209,23 @@
   margin-bottom: 0.3rem;
 }
 
-.al-detail-main { font-size: 0.95rem; font-weight: 600; color: var(--text); }
-.al-detail-sub  { font-size: 0.82rem; color: var(--muted); margin-top: 0.1rem; }
-.al-detail-body { font-size: 0.88rem; color: var(--text-soft); line-height: 1.5; }
+.al-detail-main {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.al-detail-sub {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+
+.al-detail-body {
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
 
 .al-approval-block {
   background: var(--surface-2);
@@ -161,7 +234,11 @@
   margin-top: 0.3rem;
 }
 
-.al-detail-timestamp { font-size: 0.75rem; color: var(--text-lighter); margin-top: 0.3rem; }
+.al-detail-timestamp {
+  font-size: 0.75rem;
+  color: var(--text-lighter);
+  margin-top: 0.3rem;
+}
 
 /* ── Audit timeline ── */
 .al-audit-timeline {
@@ -191,71 +268,246 @@
   border: 2px solid var(--surface);
 }
 
-.al-audit-action { font-size: 0.86rem; font-weight: 600; color: var(--text); }
-.al-audit-meta   { font-size: 0.76rem; color: var(--muted); margin-top: 0.1rem; }
+.al-audit-action {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.al-audit-meta {
+  font-size: 0.76rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS (Media Queries)
+   ========================================= */
 
 @media (max-width: 700px) {
-  .al-toolbar           { flex-direction: column; align-items: stretch; }
-  .al-search-box        { min-width: 100%; }
-  .al-filter-select     { width: 100%; }
-  .al-detail-grid       { grid-template-columns: 1fr; }
-  .table-card           { overflow-x: auto; }
-  .al-table             { min-width: 720px; }
-}
 
-/* ── PDF download button ── */
-.al-download-btn {
-  padding: 0.75rem 1.2rem;
-  background: var(--gradient-primary);
-  color: white;
-  border: none;
-  border-radius: var(--radius);
-  font-size: 0.92rem;
-  font-weight: 700;
-  font-family: var(--font);
-  cursor: pointer;
-  transition: var(--transition);
-  width: 100%;
-  margin-top: 0.4rem;
-}
+  .al-table tr {
+    background: var(--surface);
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    /* <-- ADDED: Forces the card to clip the square corners of the bottom button */
+  }
 
-.al-download-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-.al-medical-file-link {
+  /* ... keep your other td rules the same ... */
+
+  /* Turn the last "View" cell into a full-width bottom button bar */
+  .al-table td:last-child {
+    width: calc(100% + 2rem);
+    /* <-- ADDED: Forces the button to stretch exactly to both edges */
+    border-bottom: none;
+    justify-content: center;
+    background: var(--surface-2);
+    margin: 0.5rem -1rem -0.5rem -1rem;
+    padding: 0.8rem;
+  }
+
+  .al-search-box,
+  .al-filter-select,
+  .clear-filters-btn {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .clear-filters-btn {
+    text-align: center;
+  }
+
+  /* ── 2. Modal Adjustments ── */
+  .al-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  /* ── PDF download button ── */
+  .al-download-btn {
+    padding: 0.75rem 1.2rem;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.92rem;
+    font-weight: 700;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .al-download-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  /* ── Medical File Link ── */
+  .al-medical-file-link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-
     padding: 8px 10px;
     margin-top: 6px;
-
     background: #5a25eb;
     color: #fff;
     text-decoration: none;
-
     border-radius: 8px;
     font-size: 12px;
     font-weight: 600;
-
     transition: all 0.25s ease;
     box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
-}
+  }
 
-.al-medical-file-link:hover {
+  .al-medical-file-link:hover {
     background: #1d4ed8;
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
-}
+  }
 
-.al-medical-file-link:active {
+  .al-medical-file-link:active {
     transform: translateY(0);
-}
+  }
 
-.al-medical-file-link:focus-visible {
+  .al-medical-file-link:focus-visible {
     outline: 3px solid rgba(37, 99, 235, 0.35);
     outline-offset: 3px;
-}
+  }
 
-.al-medical-file-link svg,
-.al-medical-file-link i {
+  .al-medical-file-link svg,
+  .al-medical-file-link i {
     font-size: 16px;
+  }
+
+  /* Make the modal form vertically scrollable */
+  .al-detail-modal {
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── 3. Table to Card Transformation ── */
+  .table-card {
+    overflow-x: visible;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .al-table,
+  .al-table tbody,
+  .al-table tr,
+  .al-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Hide standard table headers */
+  .al-table thead {
+    display: none;
+  }
+
+  /* Turn each row into a standalone card */
+  .al-table tr {
+    background: var(--surface);
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  /* Standard cell layout: Label on left, Data on right */
+  .al-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: right;
+  }
+
+  /* Special handling for the 1st cell (Employee Name & Email) */
+  .al-table td:nth-child(1) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "label name"
+      "label email";
+    align-items: center;
+  }
+
+  .al-table td:nth-child(1) .al-emp-name {
+    grid-area: name;
+    justify-self: end;
+  }
+
+  .al-table td:nth-child(1) .al-emp-email {
+    grid-area: email;
+    justify-self: end;
+    margin-top: 0;
+  }
+
+  /* Turn the last "View" cell into a full-width bottom button bar */
+  .al-table td:last-child {
+    border-bottom: none;
+    justify-content: center;
+    background: var(--surface-2);
+    margin: 0.5rem -1rem -0.5rem -1rem;
+    /* Pull out to touch the edges of the card */
+    padding: 0.8rem;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .al-table td:last-child.al-view-hint {
+    font-size: 0.9rem;
+  }
+
+  /* ── Inject Mobile Labels via CSS ── */
+  .al-table td::before {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    grid-area: label;
+    /* Hooks into the grid for the 1st cell */
+  }
+
+  .al-table td:nth-child(1)::before {
+    content: "Employee";
+  }
+
+  .al-table td:nth-child(2)::before {
+    content: "Type";
+  }
+
+  .al-table td:nth-child(3)::before {
+    content: "Date(s)";
+  }
+
+  .al-table td:nth-child(4)::before {
+    content: "Status";
+  }
+
+  .al-table td:nth-child(5)::before {
+    content: "Reference";
+  }
+
+  .al-table td:nth-child(6)::before {
+    content: "Submitted";
+  }
+
+  .al-table td:nth-child(7)::before {
+    display: none;
+  }
 }

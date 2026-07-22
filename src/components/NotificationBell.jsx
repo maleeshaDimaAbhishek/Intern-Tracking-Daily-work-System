@@ -82,7 +82,7 @@ function NotificationBell() {
     if (notif.type=="leave_submitted") {
       navigate(`/leave/approvals`);   // simplest target — could deep-link later
     }
-    else if (notif.type=="leave_approved" || notif.type=="leave_rejected") {
+    else if (notif.type=="leave_approved" || notif.type=="leave_rejected" || notif.type=="medical_reminder_1" || notif.type=="medical_reminder_2" || notif.type=="medical_overdue" || notif.type=="medical_submitted") {
       navigate(`/leave/my`);   // simplest target — could deep-link later
     }
     else if (notif.type.startsWith("medical_")) {

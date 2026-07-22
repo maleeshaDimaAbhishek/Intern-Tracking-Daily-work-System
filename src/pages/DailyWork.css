@@ -218,6 +218,7 @@
   font-size: 0.88rem;
   color: var(--text);
   line-height: 1.4;
+  word-wrap: break-word;
 }
 
 .project-tag {
@@ -232,7 +233,7 @@
 .task-time { font-size: 0.75rem; color: var(--text-lighter); }
 
 /* Status badge */
-.day-badge { display: flex; justify-content: center; }
+.day-badge { display: flex; justify-content: center; align-items: center; }
 
 .badge-icon {
   font-size: 1.3rem;
@@ -247,7 +248,8 @@
   padding: 2rem 0;
   font-size: 0.95rem;
 }
-/* Multi-select project checkboxes (scoped to avoid cross-page CSS collisions) */
+
+/* Multi-select project checkboxes */
 .dailywork-container .project-checkboxes {
   display: flex;
   flex-direction: column;
@@ -314,6 +316,7 @@
   font-weight: 600;
   color: var(--text);
   line-height: 1.4;
+  word-wrap: break-word;
 }
 
 .dailywork-container .tech-stack {
@@ -355,4 +358,48 @@
   background: rgba(147, 167, 255, 0.28);
   color: #dbe4ff;
   border: 1px solid rgba(147, 167, 255, 0.35);
+}
+
+/* ── Mobile Responsive Overrides ── */
+@media (max-width: 768px) {
+  .dailywork-container {
+    padding: 0 0.01rem;
+  }
+
+  .dw-card {
+    padding: 1.25rem;
+  }
+
+  .history-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .day-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    position: relative;
+    padding: 1rem;
+    padding-right: 2.8rem; /* Space reserved for the absolute badge */
+  }
+
+  .day-label {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+  }
+
+  .day-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .day-task-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
 }

@@ -89,68 +89,70 @@
 /* ──────────────────────────────────────────────────────────────
    DARK MODE
    ────────────────────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────
+   DARK MODE
+   ────────────────────────────────────────────────────────────── */
 :root[data-theme="dark"] {
-  /* Brand — slightly brighter for dark bg */
+  /* Brand — vibrant for dark mode contrast */
   --primary:          #818cf8;
   --primary-dark:     #6366f1;
   --primary-light:    #a5b4fc;
-  --gradient-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
 
-  /* Backgrounds — layered dark surfaces */
-  --bg:               #0f1117;
-  --surface:          #1a1d27;
-  --surface-2:        #21253a;
-  --surface-3:        #272b3d;
+  /* Backgrounds — Deep, rich slate/zinc */
+  --bg:               #09090b; /* Near OLED black */
+  --surface:          #18181b; /* Elevated card surface */
+  --surface-2:        #27272a; /* Secondary panels */
+  --surface-3:        #3f3f46; /* Borders/Hover backgrounds */
 
-  /* Text — high contrast on dark */
-  --text:             #f1f5f9;
-  --text-soft:        #94a3b8;
-  --text-lighter:     #64748b;
-  --muted:            #64748b;
+  /* Text — High contrast & readable */
+  --text:             #f8fafc;
+  --text-soft:        #cbd5e1;
+  --text-lighter:     #94a3b8;
+  --muted:            #71717a;
 
-  /* Borders — subtle on dark */
-  --border:           #2d3150;
-  --border-strong:    #3d4270;
+  /* Borders — Subtle but distinct */
+  --border:           #27272a;
+  --border-strong:    #3f3f46;
 
-  /* Semantic colors — adjusted for dark */
-  --success:          #4ade80;
-  --success-bg:       rgba(74, 222, 128, 0.1);
-  --success-border:   rgba(74, 222, 128, 0.25);
+  /* Semantic colors — Neon/glow tinted for dark mode visibility */
+  --success:          #34d399;
+  --success-bg:       rgba(16, 185, 129, 0.12);
+  --success-border:   rgba(16, 185, 129, 0.3);
 
   --danger:           #f87171;
   --danger-light:     #fca5a5;
-  --danger-bg:        rgba(248, 113, 113, 0.1);
-  --danger-border:    rgba(248, 113, 113, 0.25);
+  --danger-bg:        rgba(239, 68, 68, 0.12);
+  --danger-border:    rgba(239, 68, 68, 0.3);
 
   --warning:          #fbbf24;
-  --warning-bg:       rgba(251, 191, 36, 0.1);
-  --warning-border:   rgba(251, 191, 36, 0.25);
+  --warning-bg:       rgba(245, 158, 11, 0.12);
+  --warning-border:   rgba(245, 158, 11, 0.3);
 
   --info:             #60a5fa;
-  --info-bg:          rgba(96, 165, 250, 0.1);
-  --info-border:      rgba(96, 165, 250, 0.25);
+  --info-bg:          rgba(59, 130, 246, 0.12);
+  --info-border:      rgba(59, 130, 246, 0.3);
 
-  /* Interactive */
-  --active-bg:        rgba(129, 140, 248, 0.15);
-  --hover-bg:         rgba(129, 140, 248, 0.08);
+  /* Interactive states */
+  --active-bg:        rgba(99, 102, 241, 0.2);
+  --hover-bg:         rgba(99, 102, 241, 0.1);
 
-  /* Shadows — deeper on dark */
-  --shadow-sm:        0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow:           0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg:        0 10px 30px rgba(0, 0, 0, 0.5);
-  --shadow-xl:        0 20px 60px rgba(0, 0, 0, 0.6);
+  /* Shadows — Deeper and more pronounced for depth on dark backgrounds */
+  --shadow-sm:        0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow:           0 4px 12px rgba(0, 0, 0, 0.6);
+  --shadow-lg:        0 10px 30px rgba(0, 0, 0, 0.8);
+  --shadow-xl:        0 20px 60px rgba(0, 0, 0, 0.9);
 
-  /* Badge colors — muted for dark */
-  --badge-purple-bg:  rgba(139, 92, 246, 0.2);
-  --badge-purple-text:#c4b5fd;
-  --badge-green-bg:   rgba(74, 222, 128, 0.15);
-  --badge-green-text: #86efac;
-  --badge-blue-bg:    rgba(96, 165, 250, 0.15);
-  --badge-blue-text:  #93c5fd;
-  --badge-orange-bg:  rgba(251, 146, 60, 0.15);
-  --badge-orange-text:#fdba74;
+  /* Badge colors — increased opacity and brighter text for legibility */
+  --badge-purple-bg:  rgba(139, 92, 246, 0.25);
+  --badge-purple-text:#ddd6fe;
+  --badge-green-bg:   rgba(16, 185, 129, 0.25);
+  --badge-green-text: #a7f3d0;
+  --badge-blue-bg:    rgba(59, 130, 246, 0.25);
+  --badge-blue-text:  #bfdbfe;
+  --badge-orange-bg:  rgba(245, 158, 11, 0.25);
+  --badge-orange-text:#fde68a;
 }
-
 /* ──────────────────────────────────────────────────────────────
    GLOBAL BASE STYLES
    ────────────────────────────────────────────────────────────── */

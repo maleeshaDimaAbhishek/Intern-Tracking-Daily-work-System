@@ -1,11 +1,16 @@
 /* Dashboard.css — dark mode fully handled by theme.css */
 
+* {
+  box-sizing: border-box;
+}
+
 .dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  padding: 1rem;
 }
 
 /* ── Welcome Banner ── */
@@ -18,10 +23,19 @@
   justify-content: space-between;
   color: white;
   box-shadow: var(--shadow-lg);
+  gap: 1rem;
 }
 
-.welcome-banner h1 { font-size: 1.5rem; margin-bottom: 0.3rem; font-weight: 800; }
-.welcome-banner p  { opacity: 0.85; font-size: 0.9rem; }
+.welcome-banner h1 { 
+  font-size: 1.5rem; 
+  margin-bottom: 0.3rem; 
+  font-weight: 800; 
+  word-break: break-word;
+}
+.welcome-banner p  { 
+  opacity: 0.85; 
+  font-size: 0.9rem; 
+}
 
 .dashboard-role-pill {
   padding: 0.4rem 1.2rem;
@@ -32,12 +46,13 @@
   background: rgba(255,255,255,0.22);
   color: white;
   letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 /* ── Stat Cards ── */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
 }
 
@@ -72,6 +87,10 @@
   flex-shrink: 0;
 }
 
+.stat-info {
+  min-width: 0; /* Prevents text overflow in flex child */
+}
+
 .stat-info h3 {
   font-size: 1.8rem;
   font-weight: 800;
@@ -80,7 +99,13 @@
   margin-bottom: 0.2rem;
 }
 
-.stat-info p { font-size: 0.82rem; color: var(--muted); }
+.stat-info p { 
+  font-size: 0.82rem; 
+  color: var(--muted); 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* ── Layout Grids ── */
 .admin-grid {
@@ -97,11 +122,10 @@
   align-items: start;
 }
 
-.right-column { display: flex; flex-direction: column; gap: 1.5rem; }
-
-@media (max-width: 900px) {
-  .admin-grid     { grid-template-columns: 1fr; }
-  .dashboard-grid { grid-template-columns: 1fr; }
+.right-column { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 1.5rem; 
 }
 
 /* ── Dash Cards ── */
@@ -111,6 +135,8 @@
   padding: 1.5rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
+  width: 100%;
+  overflow: hidden;
 }
 
 .card-header {
@@ -118,10 +144,19 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.2rem;
+  gap: 1rem;
 }
 
-.card-header h2    { font-size: 1.05rem; color: var(--text); font-weight: 700; }
-.card-subtitle     { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+.card-header h2 { 
+  font-size: 1.05rem; 
+  color: var(--text); 
+  font-weight: 700; 
+}
+.card-subtitle { 
+  font-size: 0.8rem; 
+  color: var(--muted); 
+  margin-top: 0.1rem; 
+}
 
 /* ── Search Box ── */
 .search-box {
@@ -197,6 +232,25 @@
 }
 
 .user-avatar.small { width: 32px; height: 32px; font-size: 0.85rem; }
+
+.user-info { flex: 1; min-width: 0; }
+.user-name { 
+  font-size: 0.9rem; 
+  font-weight: 600; 
+  color: var(--text); 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dashboard-user-email {
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Supervisor Card ── */
 .supervisor-card {
   margin-bottom: 12px;
 }
@@ -221,12 +275,13 @@
   flex-shrink: 0;
 }
 
-/* ✅ New wrapper: stacks name + contact details vertically */
-.supervisor-details {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0; /* prevents overflow past flex parent */
+.supervisor-detail {
+  color: var(--text-soft); /* Replaced the hardcoded #555 */
+  font-size: 0.8rem;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .supervisor-name {
@@ -239,15 +294,6 @@
   color: #555;
   font-size: 0.8rem;
   margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.user-info { flex: 1; min-width: 0; }
-.user-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
-.dashboard-user-email {
-  font-size: 0.78rem;
-  color: var(--muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -278,7 +324,13 @@
   flex-shrink: 0;
 }
 
-.task-description { font-size: 0.92rem; color: var(--text); line-height: 1.4; margin-bottom: 0.4rem; }
+.task-description { 
+  font-size: 0.92rem; 
+  color: var(--text); 
+  line-height: 1.4; 
+  margin-bottom: 0.4rem; 
+  word-wrap: break-word;
+}
 
 .task-meta {
   display: flex;
@@ -312,7 +364,6 @@
 }
 
 .yesterday-tasks { padding: 0.8rem 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
-
 .yesterday-task-row { display: flex; gap: 0.6rem; align-items: flex-start; }
 .check { color: var(--success); font-weight: 700; flex-shrink: 0; }
 
@@ -334,7 +385,12 @@
 }
 
 .today-item:last-child { border-bottom: none; }
-.today-item p { font-size: 0.88rem; color: var(--text-soft); line-height: 1.4; }
+.today-item p { 
+  font-size: 0.88rem; 
+  color: var(--text-soft); 
+  line-height: 1.4; 
+  word-wrap: break-word; 
+}
 
 .project-list { display: flex; flex-direction: column; gap: 0.6rem; }
 
@@ -384,42 +440,29 @@
   border: 1.5px solid var(--border);
   background: var(--surface);
   transition: box-shadow 0.2s ease;
+  position: relative;
 }
 
 .day-row:hover { box-shadow: var(--shadow); }
 
-/* Status variants — use semantic vars */
-.day-row.today {
-  border-color: var(--primary);
-  background: var(--active-bg);
-}
+/* Status variants */
+.day-row.today     { border-color: var(--primary); background: var(--active-bg); }
+.day-row.submitted { border-color: var(--success-border); background: var(--success-bg); }
+.day-row.missed    { border-color: var(--danger-border); background: var(--danger-bg); }
+.day-row.weekend   { border-color: var(--border); background: var(--surface-2); }
 
-.day-row.submitted {
-  border-color: var(--success-border);
-  background: var(--success-bg);
-}
+.day-label { display: flex; flex-direction: column; gap: 0.15rem; }
+.day-name  { font-size: 0.85rem; font-weight: 700; color: var(--text); }
 
-.day-row.missed {
-  border-color: var(--danger-border);
-  background: var(--danger-bg);
-}
-
-.day-row.weekend {
-  border-color: var(--border);
-  background: var(--surface-2);
-}
-
-.day-label          { display: flex; flex-direction: column; gap: 0.15rem; }
-.day-name           { font-size: 0.85rem; font-weight: 700; color: var(--text); }
 .day-row.missed .day-name  { color: var(--danger); }
 .day-row.weekend .day-name { color: var(--muted); }
-.day-date           { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); }
+.day-date { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); }
 
-.day-status         { font-size: 0.83rem; font-weight: 500; }
-.missed-text        { color: var(--danger); }
-.weekend-text       { color: var(--muted); font-style: italic; }
+.day-status   { font-size: 0.83rem; font-weight: 500; }
+.missed-text  { color: var(--danger); }
+.weekend-text { color: var(--muted); font-style: italic; }
 
-.day-tasks          { display: flex; flex-direction: column; gap: 0.4rem; }
+.day-tasks { display: flex; flex-direction: column; gap: 0.4rem; }
 
 .day-task-item {
   background: var(--surface);
@@ -436,24 +479,120 @@
   flex-wrap: wrap;
 }
 
-.task-time          { font-size: 0.73rem; color: var(--muted); }
+.task-time { font-size: 0.73rem; color: var(--muted); }
 .day-task-item .task-description { font-size: 0.85rem; color: var(--text); line-height: 1.4; }
-.day-badge          { display: flex; justify-content: center; }
-.badge-icon         { font-size: 1.1rem; }
 
-.history-legend {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
+.day-badge  { display: flex; justify-content: center; align-items: center; }
+.badge-icon { font-size: 1.1rem; }
 
+.history-legend { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .legend-item {
   font-size: 0.72rem;
   font-weight: 600;
   padding: 0.18rem 0.55rem;
   border-radius: var(--radius-full);
 }
+.legend-item.submitted { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-border); }
+.legend-item.missed    { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-border); }
+.legend-item.weekend   { background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); }
 
-.legend-item.submitted { background: var(--success-bg);  color: var(--success); border: 1px solid var(--success-border); }
-.legend-item.missed    { background: var(--danger-bg);   color: var(--danger);  border: 1px solid var(--danger-border);  }
-.legend-item.weekend   { background: var(--surface-2);   color: var(--muted);   border: 1px solid var(--border);         }
+
+/* ── Mobile Responsive Overrides ── */
+
+@media (max-width: 900px) {
+  .admin-grid,
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem 0.1rem;
+    gap: 1rem;
+  }
+
+  .welcome-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1.2rem;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .welcome-banner h1 {
+    font-size: 1.25rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .stat-card {
+    padding: 0.8rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .stat-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 1.3rem;
+  }
+
+  .stat-info h3 { font-size: 1.25rem; }
+
+  .dash-card {
+    padding: 1rem;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  /* History Grid Mobile Overrides */
+  .day-row {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    padding: 1rem;
+    padding-right: 2.5rem; /* Space reserved for absolute badge */
+  }
+
+  .day-label {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+  }
+
+  .day-badge {
+    position: absolute;
+    top: 1rem;
+    right: 0.8rem;
+  }
+
+  .yesterday-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .yesterday-user-header {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .task-meta {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+}

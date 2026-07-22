@@ -28,13 +28,16 @@ export const getMyProjects = async () => {
   return response.json();
 };
 
-export const createProject = async (name, description, tech_stack, status = "Not Started") => {
+export const createProject = async (projectData) => {
   const response = await apiFetch("/projects", {
     method: "POST",
-    body: JSON.stringify({ name, description, tech_stack, status }),
+    body: JSON.stringify(projectData),
   });
   const data = await parseJsonSafely(response);
-  if (!response.ok) throw new Error(getErrorMessage(data, "Failed to create project"));
+  if (!response.ok) {
+    console.error("Error creating project:", data);
+    throw new Error(getErrorMessage(data, "Failed to create project"));
+  }
   return data;
 };
 

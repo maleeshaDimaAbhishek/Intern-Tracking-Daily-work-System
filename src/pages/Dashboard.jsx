@@ -192,7 +192,7 @@ function AdminDashboard() {
           <div className="stat-icon">📋</div>
           <div className="stat-info">
             <h3>{normalizedYesterdayTasks.length}</h3>
-            <p>Tasks Submitted Yesterday</p>
+            <p>Yesterday Submition </p>
           </div>
         </div>
         <div className="stat-card orange">

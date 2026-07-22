@@ -34,7 +34,7 @@ function Projects() {
     { label: "Completed", color: "#1A365D", bg: "#BEE3F8" },
     { label: "Closed", color: "#744210", bg: "#FEFCBF" },
   ];
-
+  const [viewingDescProject, setViewingDescProject] = useState(null); // ← ADD THIS
   useEffect(() => { fetchProjects(); }, []);
   const getStatusStyle = (status) => {
     const s = STATUSES.find((s) => s.label === status);
@@ -75,6 +75,35 @@ function Projects() {
     } finally {
       setUsersLoading(false);
     }
+  };
+  const ExpandableDescription = ({ text, maxLength = 140, onShowMore }) => {
+    if (!text) return null;
+
+    if (text.length <= maxLength) {
+      return <p className="project-desc">{text}</p>;
+    }
+
+    // Handle click/tap and strictly stop it from bubbling up
+    const handleTrigger = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onShowMore();
+    };
+
+    return (
+      <p className="project-desc">
+        {text.substring(0, maxLength)}...
+        <button
+          type="button"
+          className="show-more-btn"
+          onClick={handleTrigger}
+          onTouchStart={(e) => e.stopPropagation()} /* Prevents touch bubbling on iOS/Android */
+          onPointerDown={(e) => e.stopPropagation()} /* Prevents pointer bubbling */
+        >
+          Show More
+        </button>
+      </p>
+    );
   };
   // REPLACE your fetchProjects function
   const fetchProjects = async () => {
@@ -146,12 +175,13 @@ function Projects() {
         setProjects(projects.map((p) => p.id === editingProject.id ? updated : p));
         showToast(`✏️ "${updated.name}" updated successfully!`);
       } else {
-        const created = await createProject(form.name, form.description, form.tech_stack || null);
+        const created = await createProject(payload);
         setProjects([created, ...projects]);
         showToast(`🎉 Project "${created.name}" created successfully!`);
       }
       handleCloseModal();
     } catch (err) {
+      console.error("Error saving project:", err);
       setFormError(err.message || "Failed to save project.");
     } finally {
       setLoading(false);
@@ -325,7 +355,11 @@ function Projects() {
                   </span>
                 </div>
 
-                <p className="project-desc">{project.description}</p>
+                <ExpandableDescription
+                  text={project.description}
+                  maxLength={140}
+                  onShowMore={() => setViewingDescProject(project)}
+                />
 
                 {getSupervisorName(project) && (
                   <p className="project-supervisor">
@@ -431,8 +465,9 @@ function Projects() {
                 name="supervisor_id"
                 value={form.supervisor_id}
                 onChange={handleFormChange}
+                required
               >
-                <option value="">— No supervisor assigned —</option>
+                <option value="">— Select a supervisor —</option>
                 {supervisors.map((s) => (
                   <option key={s.id} value={s.id}>
                     {s.name} ({s.email})
@@ -514,6 +549,27 @@ function Projects() {
                 </div>
               </>
             )}
+
+          </div>
+        </Modal>
+      )}
+      {/* Project Description Modal */}
+      {viewingDescProject && (
+        <Modal
+          title={`📄 ${viewingDescProject.name} — Description`}
+          onClose={() => setViewingDescProject(null)}
+        >
+          <div className="description-modal-content">
+            <p className="full-description-text">{viewingDescProject.description}</p>
+          </div>
+          <div className="modal-actions" style={{ marginTop: '1.5rem' }}>
+            <button
+              type="button"
+              className="secondary-btn"
+              onClick={() => setViewingDescProject(null)}
+            >
+              Close
+            </button>
           </div>
         </Modal>
       )}

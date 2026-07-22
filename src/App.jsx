@@ -33,7 +33,7 @@ function App() {
 
             <Route path="/daily-work" element={
               <ProtectedRoute>
-                <Layout><DailyWork /></Layout>
+                <Layout><DailyWork/></Layout>
               </ProtectedRoute>
             } />
 

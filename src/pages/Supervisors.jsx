@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { getAllUsers, registerUser, updateUser,
-         getUserAssignedProjects, deleteUser } from "../api/users";
+import {
+  getAllUsers, registerUser, updateUser,
+  getUserAssignedProjects, deleteUser
+} from "../api/users";
 import { getAllProjects } from "../api/projects";
 import Modal from "../components/Modal";
 import Toast from "../components/Toast";
@@ -14,19 +16,19 @@ const emptyForm = {
 };
 
 function Supervisors() {
-  const [supervisors, setSupervisors]   = useState([]);
-  const [projects, setProjects]         = useState([]);
-  const [fetching, setFetching]         = useState(true);
-  const [showModal, setShowModal]       = useState(false);
-  const [editingUser, setEditingUser]   = useState(null);
-  const [form, setForm]                 = useState(emptyForm);
-  const [loading, setLoading]           = useState(false);
-  const [pageError, setPageError]       = useState("");
-  const [formError, setFormError]       = useState("");
-  const [toast, setToast]               = useState(null);
+  const [supervisors, setSupervisors] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [fetching, setFetching] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [form, setForm] = useState(emptyForm);
+  const [loading, setLoading] = useState(false);
+  const [pageError, setPageError] = useState("");
+  const [formError, setFormError] = useState("");
+  const [toast, setToast] = useState(null);
   const [projectSearch, setProjectSearch] = useState("");
   const [projectSupervisorMap, setProjectSupervisorMap] = useState({});
-  const { confirm, dialog }             = useConfirm();
+  const { confirm, dialog } = useConfirm();
 
   const showToast = (message, type = "success") => setToast({ message, type });
 
@@ -120,12 +122,12 @@ function Supervisors() {
     setFormError("");
     setProjectSearch("");
     setForm({
-      name:        user.name,
-      email:       user.email,
-      password:    "",
-      role:        "supervisor",
+      name: user.name,
+      email: user.email,
+      password: "",
+      role: "supervisor",
       project_ids: [],
-      phone:       user.phone || "",
+      phone: user.phone || "",
     });
     setShowModal(true);
   };
@@ -167,11 +169,12 @@ function Supervisors() {
       handleCloseModal();
       await fetchData();
     } catch (err) {
-      const raw        = err?.message || "";
+      const raw = err?.message || "";
       const isDupEmail = raw.toLowerCase().includes("email");
+      console.error("Error creating/updating supervisor:", err);
       setFormError(
         isDupEmail ? "This email is already registered." :
-        editingUser ? "Failed to update supervisor." : "Failed to create supervisor."
+          editingUser ? "Failed to update supervisor." : "Failed to create supervisor."
       );
     } finally {
       setLoading(false);
@@ -180,8 +183,8 @@ function Supervisors() {
 
   const handleDelete = async (user) => {
     const ok = await confirm({
-      title:       "Deactivate Supervisor",
-      message:     `Are you sure you want to deactivate "${user.name}"? They will no longer be able to log in.`,
+      title: "Deactivate Supervisor",
+      message: `Are you sure you want to deactivate "${user.name}"? They will no longer be able to log in.`,
       confirmText: "Yes, Deactivate",
       confirmType: "warning",
     });
@@ -241,7 +244,9 @@ function Supervisors() {
                     <td className="td-index">{index + 1}</td>
                     <td className="td-name">{user.name}</td>
                     <td className="td-email">{user.email}</td>
-                    <td className="td-email">{user.phone || "—"}</td>
+                    <td className={user.role === "supervisor" ? "td-phone" : "td-role"}>
+                      {user.role === "supervisor" ? (user.phone || "—") : (user.role || "—")}
+                    </td>
                     <td className="td-date">
                       {new Date(user.created_at).toLocaleDateString("en-US", {
                         year: "numeric", month: "short", day: "numeric",
@@ -281,6 +286,7 @@ function Supervisors() {
                 name="name" type="text"
                 placeholder="e.g. Kasun Perera"
                 value={form.name}
+                maxLength={100}
                 onChange={handleFormChange}
                 required
               />
@@ -292,6 +298,7 @@ function Supervisors() {
                 name="email" type="email"
                 placeholder="supervisor@example.com"
                 value={form.email}
+                maxLength={100}
                 onChange={handleFormChange}
                 required
               />
@@ -303,6 +310,7 @@ function Supervisors() {
                 name="phone" type="tel"
                 placeholder="e.g. +94771234567"
                 value={form.phone || ""}
+                maxLength={15}
                 onChange={handleFormChange}
                 required
               />
@@ -395,8 +403,8 @@ function Supervisors() {
                         p.name.toLowerCase().includes(projectSearch.toLowerCase()) ||
                         (p.tech_stack || "").toLowerCase().includes(projectSearch.toLowerCase())
                       ).length === 0 && (
-                        <p className="empty-small">No projects match "{projectSearch}"</p>
-                      )}
+                          <p className="empty-small">No projects match "{projectSearch}"</p>
+                        )}
                     </div>
 
                     {form.project_ids.length > 0 && (
@@ -418,7 +426,7 @@ function Supervisors() {
               </button>
               <button type="submit" className="primary-btn" disabled={loading}>
                 {loading
-                  ? (editingUser ? "Saving..."    : "Creating...")
+                  ? (editingUser ? "Saving..." : "Creating...")
                   : (editingUser ? "Save Changes" : "Create Supervisor")}
               </button>
             </div>
