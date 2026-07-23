@@ -122,3 +122,14 @@
   color: var(--text-lighter);
   margin-top: 1.5rem;
 }
+
+@media (max-width: 480px) {
+  .verify-container { padding: 0.75rem; align-items: flex-start; }
+  .verify-card { padding: 1.4rem 1rem; border-radius: var(--radius-lg); margin-top: 0.75rem; }
+  .verify-logo { width: 105px; }
+  .verify-ref-display { display: block; overflow-wrap: anywhere; }
+  .verify-details { padding: 1rem; }
+  .verify-row { align-items: flex-start; flex-direction: column; gap: 0.2rem; }
+  .verify-label { white-space: normal; }
+  .verify-value { text-align: left; overflow-wrap: anywhere; }
+}

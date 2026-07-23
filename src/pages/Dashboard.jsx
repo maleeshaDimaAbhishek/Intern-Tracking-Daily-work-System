@@ -3,7 +3,10 @@ import { useAuth } from "../context/AuthContext";
 import { getMyTasks, getUserLast10DaysTasks, getUsersTasksByDate, getYesterdayAllTasks } from "../api/dailyWork";
 import { getAllProjects, getMyProjects } from "../api/projects";
 import { getAllUsers, mySupervisors } from "../api/users";
+import Modal from "../components/Modal";
 import "./Dashboard.css";
+
+const PROJECT_DESCRIPTION_PREVIEW_LENGTH = 140;
 
 const toLocalDateStr = (date) => {
   const yyyy = date.getFullYear();
@@ -368,6 +371,7 @@ function InternDashboard() {
   const [projects, setProjects] = useState([]);
   const [supervisors, setSupervisors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [descriptionProject, setDescriptionProject] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -658,9 +662,27 @@ function InternDashboard() {
                 {projects.map((p) => (
                   <div key={p.id} className="project-row">
                     <div className="project-dot" />
-                    <div>
+                    <div className="project-row-content">
                       <p className="project-name">{p.name}</p>
-                      <p className="project-desc">{p.description}</p>
+                      {p.description && (
+                        <div className="project-description-preview">
+                          <p className="project-desc">
+                            {p.description.length > PROJECT_DESCRIPTION_PREVIEW_LENGTH
+                              ? `${p.description.slice(0, PROJECT_DESCRIPTION_PREVIEW_LENGTH).trimEnd()}…`
+                              : p.description}
+                          </p>
+                          {p.description.length > PROJECT_DESCRIPTION_PREVIEW_LENGTH && (
+                            <button
+                              type="button"
+                              className="project-show-more"
+                              onClick={() => setDescriptionProject(p)}
+                              aria-label={`Show full description for ${p.name}`}
+                            >
+                              Show more
+                            </button>
+                          )}
+                        </div>
+                      )}
                       {p.tech_stack && (
                         <div className="tech-stack" style={{ marginTop: "0.35rem" }}>
                           {p.tech_stack.split(",").map((t) => t.trim()).filter(Boolean)
@@ -696,6 +718,17 @@ function InternDashboard() {
 
         </div>
       </div>
+      {descriptionProject && (
+        <Modal
+          title={descriptionProject.name}
+          onClose={() => setDescriptionProject(null)}
+          className="project-description-modal"
+        >
+          <p className="project-description-full">
+            {descriptionProject.description}
+          </p>
+        </Modal>
+      )}
     </div>
   );
 }

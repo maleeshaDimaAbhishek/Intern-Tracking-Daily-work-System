@@ -187,20 +187,20 @@ function Users() {
             <tbody>
               {users.map((user, index) => (
                 <tr key={user.id}>
-                  <td className="td-index">{index + 1}</td>
-                  <td className="td-name">{user.name}</td>
-                  <td className="td-email">{user.email}</td>
-                  <td className="td-phone">{user.phone}</td>
-                  <td className="td-role">
+                  <td className="td-index" data-label="Index">{index + 1}</td>
+                  <td className="td-name" data-label="Name">{user.name}</td>
+                  <td className="td-email" data-label="Email">{user.email}</td>
+                  <td className="td-phone" data-label="Phone number">{user.phone}</td>
+                  <td className="td-role" data-label="Role">
                     <span className={`badge ${user.role}`}>{user.role}</span>
                   </td>
-                  <td className="td-date">
+                  <td className="td-date" data-label="Joined">
                     {new Date(user.created_at).toLocaleDateString("en-US", {
                       year: "numeric", month: "short", day: "numeric",
                     })}
                   </td>
-                  <td>
-                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <td data-label="Actions">
+                    <div className="table-row-actions">
                       <button className="edit-btn" onClick={() => openEditModal(user)}>
                         Edit
                       </button>

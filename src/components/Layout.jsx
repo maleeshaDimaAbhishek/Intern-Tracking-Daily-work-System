@@ -3,22 +3,12 @@ import Footer from "./Footer";        // ← ADD import
 
 function Layout({ children }) {
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "var(--bg)",
-      display: "flex",
-      flexDirection: "column",        // ← pushes footer to bottom
-    }}>
+    <div className="app-layout">
       <Navbar />
-      <main style={{
-        padding: "2rem",
-        position: "relative",
-        zIndex: 1,
-        flex: 1,                      // ← takes remaining space
-      }}>
+      <main className="app-main">
         {children}
       </main>
-      <Footer />                      {/* ← ADD footer */}
+      <Footer />
     </div>
   );
 }

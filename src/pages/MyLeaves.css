@@ -131,3 +131,12 @@
   font-size: 0.75rem;
   color: var(--text-lighter);
 }
+
+@media (max-width: 600px) {
+  .my-leave-card { padding: 1rem; }
+  .my-leave-top { align-items: flex-start; gap: 0.6rem; flex-wrap: wrap; }
+  .my-leave-ref { display: block; overflow-wrap: anywhere; }
+  .my-leave-actions { flex-direction: column; }
+  .my-leave-actions button, .my-leave-upload-row button { width: 100%; }
+  .my-leave-upload-row { align-items: stretch; }
+}

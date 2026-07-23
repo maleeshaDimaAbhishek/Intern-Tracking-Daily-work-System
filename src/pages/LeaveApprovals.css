@@ -210,3 +210,17 @@
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+@media (max-width: 600px) {
+  .approval-feedback { align-items: flex-start; }
+  .approval-card-top, .approval-card-body, .approval-card-actions {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .approval-employee { min-width: 0; }
+  .approval-employee > div:last-child { min-width: 0; }
+  .approval-employee-email { overflow-wrap: anywhere; }
+  .approval-detail-row { grid-template-columns: 1fr; gap: 0.15rem; }
+  .approval-card-actions { flex-direction: column; }
+  .approve-btn, .reject-btn { width: 100%; }
+}

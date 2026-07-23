@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import NotificationBell from "./NotificationBell";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./NavBar.css";
 import logo from "../assets/logo.png";
 function ThemeButton({ resolvedTheme, setTheme }) {
@@ -20,8 +20,30 @@ function ThemeButton({ resolvedTheme, setTheme }) {
 function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { user, logout } = useAuth();
-    const { themePreference, resolvedTheme, setTheme } = useTheme();
+    const { resolvedTheme, setTheme } = useTheme();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isMenuOpen) return undefined;
+
+        const previousOverflow = document.body.style.overflow;
+        const closeOnEscape = (event) => {
+            if (event.key === "Escape") setIsMenuOpen(false);
+        };
+        const closeOnDesktop = () => {
+            if (window.innerWidth > 900) setIsMenuOpen(false);
+        };
+
+        document.body.style.overflow = "hidden";
+        document.addEventListener("keydown", closeOnEscape);
+        window.addEventListener("resize", closeOnDesktop);
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            document.removeEventListener("keydown", closeOnEscape);
+            window.removeEventListener("resize", closeOnDesktop);
+        };
+    }, [isMenuOpen]);
 
     const handleLogout = () => {
         logout();
@@ -30,21 +52,28 @@ function NavBar() {
 
     const isAdminOrSupervisor = user?.role === "admin" || user?.role === "supervisor";
     return (
+        <>
         <nav className="navbar">
             {/*left side-brand*/}
             <div className="navbar-brand">
                 <button
                     className={`hamburger ${isMenuOpen ? "open" : ""}`}
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    type="button"
+                    aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                    aria-expanded={isMenuOpen}
+                    aria-controls="primary-navigation"
                 >
-                    {isMenuOpen ? "✕" : "☰"}
+                    <span className="hamburger-line" />
+                    <span className="hamburger-line" />
+                    <span className="hamburger-line" />
                 </button>
 
                 <img src={logo} alt="SLT Mobitel" className="navbar-logo" />
 
             </div>
             {/*middle-navlinks*/}
-            <div className={`navbar-links ${isMenuOpen ? "show" : ""}`}>
+            <div id="primary-navigation" className={`navbar-links ${isMenuOpen ? "show" : ""}`}>
                 <div className="mobile-theme">
                     <ThemeButton resolvedTheme={resolvedTheme} setTheme={setTheme} />
                 </div>
@@ -116,6 +145,15 @@ function NavBar() {
                 <button onClick={handleLogout} className="logout-btn">Sign Out</button>
             </div>
         </nav>
+        {isMenuOpen && (
+            <button
+                type="button"
+                className="nav-backdrop"
+                aria-label="Close navigation menu"
+                onClick={() => setIsMenuOpen(false)}
+            />
+        )}
+        </>
     );
 }
 export default NavBar;

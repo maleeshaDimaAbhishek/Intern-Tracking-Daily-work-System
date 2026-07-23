@@ -35,3 +35,10 @@
   color: var(--text);
   text-align: center;
 }
+
+@media (max-width: 600px) {
+  .footer { padding: 1rem 0.75rem; }
+  .footer-logo { justify-content: center; }
+  .footer-divider { margin: 0 auto; }
+  .footer-text { line-height: 1.5; }
+}

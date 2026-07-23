@@ -16,6 +16,14 @@ const LEAVE_TYPES = [
 const getDateMode = (leaveType) =>
   LEAVE_TYPES.find((t) => t.value === leaveType)?.dateMode || null;
 
+const getTodayLocalDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 function LeaveRequest() {
   const { user } = useAuth();
 
@@ -50,6 +58,8 @@ function LeaveRequest() {
   };
 
   const dateMode = getDateMode(leaveType);
+  const todayDate = getTodayLocalDate();
+  const isTodayAfternoon = leaveDate === todayDate && new Date().getHours() >= 12;
 
   // ── Reset date fields whenever leave type changes ───────────
   const handleLeaveTypeChange = (value) => {
@@ -97,12 +107,25 @@ function LeaveRequest() {
       setError("Please select both start and end dates.");
       return;
     }
+    if (dateMode === "range" && (startDate < todayDate || endDate < todayDate)) {
+      setError("Leave dates cannot be earlier than today.");
+      return;
+    }
     if (dateMode === "range" && endDate < startDate) {
       setError("End date must be on or after start date.");
       return;
     }
     if ((dateMode === "single" || dateMode === "halfday") && !leaveDate) {
       setError("Please select a date.");
+      return;
+    }
+    if ((dateMode === "single" || dateMode === "halfday") && leaveDate < todayDate) {
+      setError("Leave date cannot be earlier than today.");
+      return;
+    }
+    if (dateMode === "halfday" && leaveDate === getTodayLocalDate() &&
+        session === "Morning" && new Date().getHours() >= 12) {
+      setError("Morning half-day leave is no longer available after 12:00 PM.");
       return;
     }
 
@@ -196,7 +219,12 @@ function LeaveRequest() {
                 <input
                   type="date"
                   value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
+                  min={todayDate}
+                  onChange={(e) => {
+                    const nextStartDate = e.target.value;
+                    setStartDate(nextStartDate);
+                    if (endDate && endDate < nextStartDate) setEndDate("");
+                  }}
                   required
                 />
               </div>
@@ -205,7 +233,7 @@ function LeaveRequest() {
                 <input
                   type="date"
                   value={endDate}
-                  min={startDate || undefined}
+                  min={startDate || todayDate}
                   onChange={(e) => setEndDate(e.target.value)}
                   required
                 />
@@ -219,6 +247,7 @@ function LeaveRequest() {
               <input
                 type="date"
                 value={leaveDate}
+                min={todayDate}
                 onChange={(e) => setLeaveDate(e.target.value)}
                 required
               />
@@ -232,16 +261,26 @@ function LeaveRequest() {
                 <input
                   type="date"
                   value={leaveDate}
-                  onChange={(e) => setLeaveDate(e.target.value)}
+                  min={todayDate}
+                  onChange={(e) => {
+                    const nextDate = e.target.value;
+                    setLeaveDate(nextDate);
+                    if (nextDate === getTodayLocalDate() && new Date().getHours() >= 12) {
+                      setSession("Afternoon");
+                    }
+                  }}
                   required
                 />
               </div>
               <div className="form-group">
                 <label>Session</label>
                 <select value={session} onChange={(e) => setSession(e.target.value)}>
-                  <option value="Morning">🌅 Morning</option>
+                  <option value="Morning" disabled={isTodayAfternoon}>🌅 Morning</option>
                   <option value="Afternoon">🌇 Afternoon</option>
                 </select>
+                {isTodayAfternoon && (
+                  <span className="field-hint">Morning is unavailable for today after 12:00 PM.</span>
+                )}
               </div>
             </div>
           )}

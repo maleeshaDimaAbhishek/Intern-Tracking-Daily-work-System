@@ -5,74 +5,117 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-:root {
-  /* Background & Text */
-  --bg: #f0f2f5;
-  --text: #333;
-  --text-soft: #555;
-  --text-lighter: #999;
-  --surface: #ffffff;
-  --surface-2: #f8f9fa;
-  --muted: #888;
-  
-  /* Colors */
-  --border: #e5e7eb;
-  --primary: #667eea;
-  --primary-light: #7c8ff3;
-  --secondary: #764ba2;
-  --active-bg: #ede9fe;
-  --danger: #e53e3e;
-  --danger-light: #ef5350;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  
-  /* Effects */
-  --shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.1);
-  
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-primary-light: linear-gradient(135deg, #7c8ff3 0%, #8b5fb8 100%);
-}
-
-:root[data-theme="dark"] {
-  /* Background & Text */
-  --bg: #0f172a;
-  --text: #e5e7eb;
-  --text-soft: #cbd5e1;
-  --text-lighter: #94a3b8;
-  --surface: #111827;
-  --surface-2: #1f2937;
-  --muted: #94a3b8;
-  
-  /* Colors */
-  --border: #334155;
-  --primary: #93a7ff;
-  --primary-light: #a8b8ff;
-  --secondary: #a78bfa;
-  --active-bg: #312e81;
-  --danger: #f87171;
-  --danger-light: #fb7185;
-  --success: #4ade80;
-  --warning: #fbbf24;
-  
-  /* Effects */
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
-  
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #93a7ff 0%, #a78bfa 100%);
-  --gradient-primary-light: linear-gradient(135deg, #a8b8ff 0%, #b9a3ff 100%);
-}
+/* Design tokens live in theme.css so every screen uses the same palette. */
 
 body {
   background-color: var(--bg);
   color: var(--text);
   transition: background-color 0.3s ease, color 0.3s ease;
+  min-width: 320px;
+  overscroll-behavior-x: none;
 }
 
 #root {
   min-height: 100vh;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+html[data-theme="dark"] { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
+
+.app-layout {
+  min-height: 100vh;
+  min-width: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: clamp(1rem, 3vw, 2rem);
+  padding-left: max(clamp(1rem, 3vw, 2rem), env(safe-area-inset-left));
+  padding-right: max(clamp(1rem, 3vw, 2rem), env(safe-area-inset-right));
+}
+
+img, video, canvas, svg { max-width: 100%; }
+
+/* Long user-provided values should wrap instead of widening a mobile page. */
+:is(p, td, th, label, .modal-body, .card-header, .page-header) {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .app-main {
+    padding-top: 1rem;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .page-header > :is(button, .primary-btn, .secondary-btn) {
+    width: 100%;
+  }
+
+  :is(button, a, input, select, textarea) { max-width: 100%; }
+
+  :is(input, select, textarea) { font-size: 16px; }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .modal-actions > button { width: 100%; }
+}
+
+/* Touch devices need comfortably sized controls even when their viewport is
+   wider (for example tablets in landscape). */
+@media (pointer: coarse) {
+  :is(button, [role="button"], input[type="button"], input[type="submit"], select) {
+    min-height: 44px;
+  }
+
+  :is(.nav-link, .dropdown-item) {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .app-main {
+    padding-left: max(0.625rem, env(safe-area-inset-left));
+    padding-right: max(0.625rem, env(safe-area-inset-right));
+  }
+
+  .page-header h1 { font-size: 1.35rem; }
+  :is(.dash-card, .dw-card, .report-card) { border-radius: 12px; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .modal-backdrop, .confirm-backdrop { align-items: flex-start; }
+  .modal-box, .confirm-box { margin-top: 0; max-height: calc(100dvh - 1rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ────────────────────────────────────────── */
@@ -343,4 +386,79 @@ textarea::placeholder {
   background: rgba(74, 222, 128, 0.1);
   border-color: rgba(74, 222, 128, 0.3);
   color: #bbf7d0;
+}
+
+/* Coverage for older dashboard screens that still declare literal light
+   colours in their component stylesheet. */
+:root[data-theme="dark"] :is(
+  .table-card, .project-card, .dw-card, .dash-card, .stat-card,
+  .modal-box, .confirm-dialog, .notification-dropdown, .leave-card,
+  .approval-card, .report-card, .users-table, .task-item, .day-task-item,
+  .login-card, .fp-card, .change-password-card
+) {
+  background-color: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+:root[data-theme="dark"] :is(
+  .users-table thead, .users-table tbody tr:hover, .modal-header,
+  .project-card-footer, .form-section-title, .project-checkbox-row,
+  .report-option, .notification-item:hover, .empty-state, .pagination,
+  .leave-details, .approval-details
+) {
+  background-color: var(--surface-2);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+:root[data-theme="dark"] :is(input, textarea, select, option) {
+  background-color: var(--surface);
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+:root[data-theme="dark"] :is(input, textarea, select):disabled {
+  background-color: var(--surface-2);
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] :is(
+  h1, h2, h3, h4, label, td, th, .td-name, .project-name,
+  .project-card-body h3, .task-description, .user-name, .modal-header h3
+) { color: var(--text); }
+
+:root[data-theme="dark"] :is(
+  p, .td-email, .td-phone, .td-date, .field-hint, .label-hint,
+  .project-desc-small, .loading-text, .empty-state, .form-section-title
+) { color: var(--text-soft); }
+
+:root[data-theme="dark"] :is(.badge.admin, .role-pill.admin, .tech-tag) {
+  background: var(--badge-purple-bg);
+  color: var(--badge-purple-text);
+}
+
+:root[data-theme="dark"] :is(.badge.intern, .role-pill.intern) {
+  background: var(--badge-green-bg);
+  color: var(--badge-green-text);
+}
+
+:root[data-theme="dark"] :is(.badge.supervisor, .role-pill.supervisor) {
+  background: var(--badge-blue-bg);
+  color: var(--badge-blue-text);
+}
+
+:root[data-theme="dark"] :is(.project-checkbox-row:hover, .project-checkbox-row.selected) {
+  background: var(--active-bg);
+  border-color: var(--primary);
+}
+
+:root[data-theme="dark"] :is(.edit-btn, .secondary-btn, .cancel-btn) {
+  background: transparent;
+  color: var(--primary-light);
+  border-color: var(--border-strong);
+}
+
+:root[data-theme="dark"] :is(.modal-overlay, .confirm-overlay) {
+  background: rgba(0, 0, 0, 0.72);
 }

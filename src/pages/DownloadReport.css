@@ -205,3 +205,17 @@
 :root[data-theme="dark"] .preview-task-item:hover {
   background: rgba(147, 167, 255, 0.12);
 }
+
+@media (max-width: 600px) {
+  .report-container { gap: 1rem; }
+  .report-card { padding: 1.1rem 1rem; border-radius: 12px; }
+  .filter-grid { gap: 0.85rem; }
+  .filter-actions { flex-direction: column; align-items: stretch; }
+  .filter-actions button { width: 100%; }
+  .intern-preview-card { align-items: flex-start; padding: 1rem; }
+  .intern-details { min-width: 0; }
+  .intern-meta { overflow-wrap: anywhere; }
+  .preview-day-header { align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; }
+  .preview-task-item { padding: 0.75rem; }
+  .loading-text { padding: 2rem 0.5rem; }
+}

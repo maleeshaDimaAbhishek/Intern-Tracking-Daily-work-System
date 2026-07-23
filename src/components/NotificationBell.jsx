@@ -34,6 +34,25 @@ function NotificationBell() {
     return () => clearInterval(interval);   // cleanup on unmount
   }, []);
 
+  // Keep the mobile pane contained and keyboard-dismissible.
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setIsOpen(false);
+    };
+    const isCompactViewport = window.matchMedia("(max-width: 900px)").matches;
+    const previousOverflow = document.body.style.overflow;
+
+    if (isCompactViewport) document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isOpen]);
+
   // ── Close dropdown when clicking outside it ───────────────────
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -105,7 +124,13 @@ function NotificationBell() {
 
   return (
     <div className="notif-bell-wrapper" ref={dropdownRef}>
-      <button className="notif-bell-btn" onClick={handleOpen} aria-label="Notifications">
+      <button
+        className="notif-bell-btn"
+        onClick={handleOpen}
+        aria-label="Notifications"
+        aria-expanded={isOpen}
+        aria-controls="notification-pane"
+      >
         🔔
         {unreadCount > 0 && (
           <span className="notif-badge">{unreadCount > 9 ? "9+" : unreadCount}</span>
@@ -113,9 +138,27 @@ function NotificationBell() {
       </button>
 
       {isOpen && (
-        <div className="notif-dropdown">
+        <>
+        <button
+          type="button"
+          className="notif-backdrop"
+          onClick={() => setIsOpen(false)}
+          aria-label="Close notifications"
+        />
+        <section id="notification-pane" className="notif-dropdown" aria-label="Notifications">
           <div className="notif-dropdown-header">
-            <p>Notifications</p>
+            <div>
+              <p>Notifications</p>
+              <span>{notifications.length} total</span>
+            </div>
+            <button
+              type="button"
+              className="notif-close-btn"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close notifications"
+            >
+              ✕
+            </button>
           </div>
 
           <div className="notif-list">
@@ -129,6 +172,14 @@ function NotificationBell() {
                   key={n.id}
                   className={`notif-item ${!n.is_read ? "unread" : ""}`}
                   onClick={() => handleNotificationClick(n)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      handleNotificationClick(n);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
                 >
                   <span className="notif-item-icon">{TYPE_ICON[n.type] || "🔔"}</span>
                   <div className="notif-item-content">
@@ -141,7 +192,8 @@ function NotificationBell() {
               ))
             )}
           </div>
-        </div>
+        </section>
+        </>
       )}
     </div>
   );

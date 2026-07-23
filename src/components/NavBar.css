@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
+  padding: 0 max(2rem, env(safe-area-inset-right)) 0 max(2rem, env(safe-area-inset-left));
   height: 64px;
   background: var(--surface);
   box-shadow: var(--shadow);
@@ -234,6 +234,8 @@
   height: 40px;
 }
 
+.nav-backdrop { display: none; }
+
 .hamburger:hover {
   background: var(--hover-bg);
 }
@@ -274,7 +276,8 @@
     flex-wrap: nowrap;
     position: relative;
     height: 64px;
-    padding: 0 1rem;
+    padding: 0 max(1rem, env(safe-area-inset-right)) 0 max(1rem, env(safe-area-inset-left));
+    position: sticky;
   }
 
   .navbar-links {
@@ -283,12 +286,12 @@
     position: fixed;          /* fixed so it overlays everything */
     top: 64px;
     left: 0;
-    width: 70%;
-    height: calc(100vh - 64px);
+    width: min(82vw, 340px);
+    height: calc(100dvh - 64px);
     overflow-y: auto;  
     padding-bottom: 3rem;
     background: var(--surface);
-    padding: 1rem 0;
+    padding: 1rem 0 max(3rem, env(safe-area-inset-bottom));
     box-shadow: var(--shadow-lg);
     border-top: 1px solid var(--border);
     z-index: 999;
@@ -299,6 +302,20 @@
     pointer-events: none;
     transform: translateY(-8px);
     transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 64px 0 0;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: rgba(5, 8, 18, 0.56);
+    backdrop-filter: blur(2px);
+    z-index: 98;
   }
 
   /* shown when hamburger is clicked */
@@ -360,6 +377,8 @@
     height: 28px;
   }
 
+  .navbar-links { width: 100%; }
+
   .theme-switcher {
     display: none;   /* hide theme switcher on tiny screens */
   }
@@ -396,4 +415,3 @@
         width: fit-content;
     }
 }
-
