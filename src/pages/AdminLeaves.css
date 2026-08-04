@@ -284,7 +284,7 @@
    MOBILE RESPONSIVENESS (Media Queries)
    ========================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
 
   .al-table tr {
     background: var(--surface);
@@ -395,7 +395,7 @@
   }
 
   /* ── 3. Table to Card Transformation ── */
-  .table-card {
+  .admin-leaves-container .table-card {
     overflow-x: visible;
     background: transparent;
     border: none;
@@ -432,14 +432,17 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border);
     text-align: right;
+    gap: 1rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   /* Special handling for the 1st cell (Employee Name & Email) */
   .al-table td:nth-child(1) {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
     grid-template-areas:
       "label name"
       "label email";
@@ -455,6 +458,8 @@
     grid-area: email;
     justify-self: end;
     margin-top: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
   /* Turn the last "View" cell into a full-width bottom button bar */
@@ -509,5 +514,9 @@
 
   .al-table td:nth-child(7)::before {
     display: none;
+  }
+
+  .al-date-cell {
+    white-space: normal;
   }
 }

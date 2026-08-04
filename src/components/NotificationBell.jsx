@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { getMyNotifications, markNotificationsRead } from "../api/notifications";
+import { getMyNotifications, markNotificationRead } from "../api/notifications";
 import "./NotificationBell.css";
 
 // Maps notification "type" to an icon — matches the types
@@ -79,25 +79,23 @@ function NotificationBell() {
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
-  // ── Mark all as read when opening the dropdown ────────────────
-  const handleOpen = async () => {
-    const wasAlreadyOpen = isOpen;
-    toggleDropdown();
-
-    if (!wasAlreadyOpen && unreadCount > 0) {
-      try {
-        await markNotificationsRead([]);   // empty list = mark all
-        setUnreadCount(0);
-        setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
-      } catch {
-        // If marking-as-read fails, badge just stays — not critical
-      }
-    }
-  };
+  const handleOpen = () => toggleDropdown();
 
   // ── Clicking a notification navigates to the related leave ───
-  const handleNotificationClick = (notif) => {
+  const handleNotificationClick = async (notif) => {
     setIsOpen(false);
+    if (!notif.is_read) {
+      setNotifications((prev) => prev.filter((item) => item.id !== notif.id));
+      setUnreadCount((prev) => Math.max(0, prev - 1));
+
+      try {
+        await markNotificationRead(notif.id);
+      } catch {
+        // Restore the server state if the update failed.
+        fetchNotifications();
+      }
+    }
+
     if (notif.type=="leave_submitted") {
       navigate(`/leave/approvals`);   // simplest target — could deep-link later
     }
@@ -149,7 +147,7 @@ function NotificationBell() {
           <div className="notif-dropdown-header">
             <div>
               <p>Notifications</p>
-              <span>{notifications.length} total</span>
+              <span>{notifications.length} unread</span>
             </div>
             <button
               type="button"
@@ -165,7 +163,7 @@ function NotificationBell() {
             {loading ? (
               <p className="notif-empty">Loading...</p>
             ) : notifications.length === 0 ? (
-              <p className="notif-empty">No notifications yet.</p>
+              <p className="notif-empty">No unread notifications.</p>
             ) : (
               notifications.map((n) => (
                 <div

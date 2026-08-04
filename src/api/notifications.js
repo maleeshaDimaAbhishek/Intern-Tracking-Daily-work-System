@@ -8,7 +8,7 @@ const parseJsonSafely = async (response) => {
   }
 };
 
-// ── Get all notifications + unread count in one call ────────────
+// ── Get unread notifications + unread count in one call ─────────
 export const getMyNotifications = async () => {
   const response = await apiFetch("/notifications/");
   if (!response.ok) throw new Error("Failed to fetch notifications");
@@ -23,5 +23,16 @@ export const markNotificationsRead = async (notificationIds = []) => {
   });
   const data = await parseJsonSafely(response);
   if (!response.ok) throw new Error(data?.detail || "Failed to mark notifications as read");
+  return data;
+};
+
+// Mark one notification as read. The backend verifies it belongs to the
+// currently authenticated user before updating it.
+export const markNotificationRead = async (notificationId) => {
+  const response = await apiFetch(`/notifications/${notificationId}/read`, {
+    method: "PATCH",
+  });
+  const data = await parseJsonSafely(response);
+  if (!response.ok) throw new Error(data?.detail || "Failed to mark notification as read");
   return data;
 };

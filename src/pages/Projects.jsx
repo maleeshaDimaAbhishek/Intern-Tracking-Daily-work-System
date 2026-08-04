@@ -26,26 +26,28 @@ function Projects() {
   const [searchQuery, setSearchQuery] = useState("");    // ← add this
   const [statusFilter, setStatusFilter] = useState("");
   const STATUSES = [
-    { label: "Not Started", color: "#718096", bg: "#EDF2F7" },
-    { label: "Planning", color: "#2B6CB0", bg: "#EBF8FF" },
-    { label: "In Progress", color: "#276749", bg: "#F0FFF4" },
-    { label: "On Hold", color: "#92400E", bg: "#FFFBEB" },
-    { label: "Testing", color: "#6B46C1", bg: "#FAF5FF" },
-    { label: "Completed", color: "#1A365D", bg: "#BEE3F8" },
-    { label: "Closed", color: "#744210", bg: "#FEFCBF" },
+    { label: "Not Started", color: "var(--text-soft)", bg: "var(--surface-3)" },
+    { label: "Planning", color: "var(--info)", bg: "var(--info-bg)" },
+    { label: "In Progress", color: "var(--success)", bg: "var(--success-bg)" },
+    { label: "On Hold", color: "var(--warning)", bg: "var(--warning-bg)" },
+    { label: "Testing", color: "var(--badge-purple-text)", bg: "var(--badge-purple-bg)" },
+    { label: "Completed", color: "var(--info)", bg: "var(--info-bg)" },
+    { label: "Closed", color: "var(--text-soft)", bg: "var(--surface-3)" },
   ];
   const [viewingDescProject, setViewingDescProject] = useState(null); // ← ADD THIS
   useEffect(() => { fetchProjects(); }, []);
   const getStatusStyle = (status) => {
     const s = STATUSES.find((s) => s.label === status);
-    return s ? { color: s.color, backgroundColor: s.bg } : { color: "#718096", background: "#EDF2F7" };
+    return s
+      ? { color: s.color, backgroundColor: s.bg }
+      : { color: "var(--text-soft)", backgroundColor: "var(--surface-3)" };
   };
   useEffect(() => {
     const fetchSupervisors = async () => {
       try {
         const data = await getSupervisors();
         setSupervisors(data);
-      } catch (err) {
+      } catch {
         console.error("Could not load supervisors");
       }
     };
@@ -116,7 +118,7 @@ function Projects() {
       ]);
       setProjects(projectsData);
       setSupervisors(supervisorsData);
-    } catch (err) {
+    } catch {
       setPageError("Could not load projects.");
     } finally {
       setFetching(false);

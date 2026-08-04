@@ -222,7 +222,19 @@ function AdminLeaves() {
             </thead>
             <tbody>
               {filteredRequests.map((req) => (
-                <tr key={req.id} className="al-row" onClick={() => openDetail(req.id)}>
+                <tr
+                  key={req.id}
+                  className="al-row"
+                  onClick={() => openDetail(req.id)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      openDetail(req.id);
+                    }
+                  }}
+                  tabIndex={0}
+                  aria-label={`View leave request ${req.reference} for ${req.user_name}`}
+                >
                   <td>
                     <p className="al-emp-name">{req.user_name}</p>
                     <p className="al-emp-email">{req.user_email}</p>

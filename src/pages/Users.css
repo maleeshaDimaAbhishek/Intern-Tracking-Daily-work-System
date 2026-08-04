@@ -1,5 +1,5 @@
 .users-container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -7,11 +7,13 @@
   background: var(--surface);
   border-radius: 14px;
   box-shadow: var(--shadow);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .users-table {
   width: 100%;
+  min-width: 980px;
   border-collapse: collapse;
 }
 
@@ -62,16 +64,27 @@
 
 .td-email {
   color: var(--text-soft);
+  white-space: nowrap;
 }
 .td-phone {
   color: var(--text-soft);
+  white-space: nowrap;
 }
 .td-date {
   color: #999;
   font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.td-role,
+.table-row-actions,
+.table-row-actions button {
+  white-space: nowrap;
 }
 
 .badge {
+  display: inline-flex;
+  align-items: center;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-size: 0.75rem;
@@ -248,6 +261,63 @@
   letter-spacing: 0;
 }
 
+/* Project search inside the add/edit user modal. */
+.users-container .project-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 0.8rem;
+}
+
+.users-container .project-search-box input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.7rem 2.6rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+.users-container .project-search-box input:focus {
+  border-color: var(--primary);
+}
+
+.users-container .project-search-box .search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(-50%);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.users-container .project-search-box .search-clear {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-soft);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.users-container .project-search-box .search-clear:hover {
+  background: var(--hover-bg);
+  color: var(--text);
+}
+
 .users-container .modal-actions {
   flex-wrap: wrap;
 }
@@ -274,7 +344,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
 
   /* ── 1. Page Header Stacking ── */
   .page-header {
@@ -324,28 +394,6 @@
     gap: 0.55rem;
   }
 
-  .project-search-box {
-    position: relative;
-    display: flex;
-    width: 100%;
-    margin-bottom: 0.8rem;
-    box-sizing: border-box;
-  }
-
-  .project-search-box input {
-    width: 100%;
-    padding: 0.75rem 0.75rem 0.75rem 2rem;
-    /* Icon එකට ඉඩ තියලා padding දීම */
-    box-sizing: border-box;
-  }
-
-  .project-search-box .search-icon {
-    position: absolute;
-    align-self: center;
-    margin-top: 0.25rem;
-    margin-left: 0.8rem;
-  }
-
   .users-container .modal-actions {
     flex-direction: column-reverse;
     align-items: stretch;
@@ -362,7 +410,7 @@
   /* ── 3. Table to Card Transformation ── */
 
   /* Remove horizontal scroll and flat background */
-  .table-card {
+  .users-container .table-card {
     overflow-x: visible;
     background: transparent;
     box-shadow: none;
@@ -381,6 +429,10 @@
     display: block;
     width: 100%;
     box-sizing: border-box;
+  }
+
+  .users-table {
+    min-width: 0;
   }
 
   .users-table td[data-label]::before {
@@ -410,14 +462,23 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border);
     text-align: right;
+    gap: 1rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .users-table td.td-email {
-    word-break: break-all;
-    /* Prevents long emails from breaking layout */
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
     text-align: right;
+  }
+
+  .users-table td.td-phone {
+    white-space: normal;
   }
 
   /* Last cell (Actions) styling */
@@ -445,62 +506,4 @@
   }
 
   /* ── Inject Labels into the Table Cells using CSS ── */
-  .users-table td:nth-child(1)::before {
-    content: "Index";
-    font-weight: 700;
-    color: #888;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-  }
-
-  .users-table td:nth-child(2)::before {
-    content: "Name";
-    font-weight: 700;
-    color: #888;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-  }
-
-  .users-table td:nth-child(3)::before {
-    content: "Email";
-    font-weight: 700;
-    color: #888;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-  }
-
-  .users-table td.td-phone::before {
-    content: "Phone number";
-    font-weight: 700;
-    color: #888;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-  }
-
-  .users-table td.td-role::before {
-    content: "Role";
-    font-weight: 700;
-    color: #888;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-  }
-
-
-  .users-table td:nth-child(5)::before {
-    content: "Joined";
-    font-weight: 700;
-    color: #888;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-  }
-
-  .users-table td:nth-child(6)::before {
-    content: "Actions";
-    font-weight: 700;
-    color: #888;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    align-self: flex-start;
-    margin-bottom: 0.5rem;
-  }
 }

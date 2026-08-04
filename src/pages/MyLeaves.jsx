@@ -33,6 +33,8 @@ function MyLeaves() {
   const [fetching, setFetching] = useState(true);
   const [pageError, setPageError] = useState("");
   const [toast, setToast] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [leaveTypeFilter, setLeaveTypeFilter] = useState("");
   const { confirm, dialog } = useConfirm();
 
   // ── Medical certificate upload state ─────────────────────────
@@ -69,6 +71,32 @@ function MyLeaves() {
       return `${formatDate(req.leave_date)} (${req.session})`;
     }
     return formatDate(req.leave_date);
+  };
+
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+  const filteredRequests = requests.filter((req) => {
+    const matchesLeaveType = !leaveTypeFilter || req.leave_type === leaveTypeFilter;
+    const searchableText = [
+      req.reference,
+      req.leave_type,
+      req.status,
+      req.reason,
+      req.start_date,
+      req.end_date,
+      req.leave_date,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return matchesLeaveType && (!normalizedSearch || searchableText.includes(normalizedSearch));
+  });
+
+  const hasActiveFilters = Boolean(searchQuery || leaveTypeFilter);
+
+  const clearFilters = () => {
+    setSearchQuery("");
+    setLeaveTypeFilter("");
   };
 
   const handleCancel = async (req) => {
@@ -143,11 +171,58 @@ function MyLeaves() {
       <div className="page-header">
         <div>
           <h1>📅 My Leave History</h1>
-          <p>{requests.length} request{requests.length !== 1 ? "s" : ""} submitted</p>
+          <p>
+            {hasActiveFilters
+              ? `${filteredRequests.length} of ${requests.length}`
+              : requests.length} request{requests.length !== 1 ? "s" : ""} submitted
+          </p>
         </div>
       </div>
 
       {pageError && <p className="msg error">⚠️ {pageError}</p>}
+
+      {!fetching && requests.length > 0 && (
+        <div className="ml-toolbar" role="search" aria-label="Filter leave requests">
+          <div className="ml-search-box">
+            <span className="ml-search-icon" aria-hidden="true">🔍</span>
+            <input
+              type="search"
+              placeholder="Search by reference, status, or reason..."
+              aria-label="Search leave requests"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="ml-search-clear"
+                onClick={() => setSearchQuery("")}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          <select
+            className="ml-type-filter"
+            aria-label="Filter by leave type"
+            value={leaveTypeFilter}
+            onChange={(e) => setLeaveTypeFilter(e.target.value)}
+          >
+            <option value="">All Leave Types</option>
+            {Object.keys(LEAVE_TYPE_ICON).map((leaveType) => (
+              <option key={leaveType} value={leaveType}>{leaveType}</option>
+            ))}
+          </select>
+
+          {hasActiveFilters && (
+            <button type="button" className="ml-clear-filters" onClick={clearFilters}>
+              Clear Filters
+            </button>
+          )}
+        </div>
+      )}
 
       {fetching ? (
         <p className="loading-text">Loading your leave history...</p>
@@ -156,9 +231,15 @@ function MyLeaves() {
           <p>📭</p>
           <p>You haven't submitted any leave requests yet.</p>
         </div>
+      ) : filteredRequests.length === 0 ? (
+        <div className="empty-state">
+          <p>🔎</p>
+          <p>No leave requests match your search or selected leave type.</p>
+          <button type="button" className="ml-empty-clear" onClick={clearFilters}>Clear Filters</button>
+        </div>
       ) : (
         <div className="my-leaves-list">
-          {requests.map((req) => (
+          {filteredRequests.map((req) => (
             <div key={req.id} className="my-leave-card">
               <div className="my-leave-top">
                 <span className="my-leave-type">

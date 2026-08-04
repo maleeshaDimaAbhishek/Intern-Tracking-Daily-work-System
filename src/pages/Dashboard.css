@@ -101,10 +101,9 @@
 
 .stat-info p { 
   font-size: 0.82rem; 
-  color: var(--muted); 
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--text-soft);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 /* ── Layout Grids ── */
@@ -276,27 +275,18 @@
 }
 
 .supervisor-detail {
-  color: var(--text-soft); /* Replaced the hardcoded #555 */
+  color: var(--text-soft);
   font-size: 0.8rem;
   margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 
 .supervisor-name {
+  color: var(--text);
   font-weight: 600;
   font-size: 0.9rem;
   margin: 0;
-}
-
-.supervisor-detail {
-  color: #555;
-  font-size: 0.8rem;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 
 /* ── Task List ── */
@@ -415,7 +405,7 @@
 }
 
 .project-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
-.project-desc { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+.project-desc { font-size: 0.8rem; color: var(--text-soft); margin-top: 0.1rem; }
 
 .project-row-content {
   min-width: 0;
@@ -562,7 +552,7 @@
 
 .day-row.missed .day-name  { color: var(--danger); }
 .day-row.weekend .day-name { color: var(--muted); }
-.day-date { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); }
+.day-date { font-size: 0.72rem; color: var(--text-soft); font-family: var(--font-mono); }
 
 .day-status   { font-size: 0.83rem; font-weight: 500; }
 .missed-text  { color: var(--danger); }
@@ -585,7 +575,7 @@
   flex-wrap: wrap;
 }
 
-.task-time { font-size: 0.73rem; color: var(--muted); }
+.task-time { font-size: 0.73rem; color: var(--text-soft); }
 .day-task-item .task-description { font-size: 0.85rem; color: var(--text); line-height: 1.4; }
 
 .day-badge  { display: flex; justify-content: center; align-items: center; }
@@ -600,7 +590,7 @@
 }
 .legend-item.submitted { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-border); }
 .legend-item.missed    { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-border); }
-.legend-item.weekend   { background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); }
+.legend-item.weekend   { background: var(--surface-2); color: var(--text-soft); border: 1px solid var(--border); }
 
 
 /* ── Mobile Responsive Overrides ── */

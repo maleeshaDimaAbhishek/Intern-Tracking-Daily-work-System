@@ -306,8 +306,10 @@ function Users() {
                   />
                   {projectSearch && (
                     <button
+                      type="button"
                       className="search-clear"
                       onClick={() => setProjectSearch("")}
+                      aria-label="Clear project search"
                     >✕</button>
                   )}
                 </div>
