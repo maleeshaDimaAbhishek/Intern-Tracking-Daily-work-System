@@ -6,6 +6,7 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",     // listen on all interfaces — required inside Docker
     port: 5173,
+    allowedHosts: ["empdiary.raccoon-ai.io"],
     watch: {
       usePolling: true,  // required for hot-reload to work with Docker volumes
     },
